@@ -60,7 +60,7 @@ resource "aws_autoscaling_group" "api_asg" {
   }
 }
 
-resource "aws_autoscaling_policy" "bat" {
+resource "aws_autoscaling_policy" "scalepolicy" {
   name                   = format("%s-%s-%s-%s-scalepolicy", var.prefix, var.region_name, var.stage, var.service)
   scaling_adjustment     = 1
   adjustment_type        = "ChangeInCapacity"

@@ -6,8 +6,8 @@ module "vpc" {
   #essential [required for Infra Governance]
   name                   = format("%s-%s-%s-%s", var.prefix, var.region_name, var.stage, var.service)
   azs                    = var.azs
-  public_subnets         = var.public_subnets
-  private_subnets        = var.private_subnets
+  public_subnets         = var.public_cidr
+  private_subnets        = var.private_cidr
   enable_nat_gateway     = "true"
   single_nat_gateway     = "false"
   enable_dns_hostnames   = "true"
