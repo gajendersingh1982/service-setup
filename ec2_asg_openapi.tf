@@ -20,8 +20,10 @@ data "template_cloudinit_config" "openapi" {
 resource "aws_launch_configuration" "api_conf" {
   name          = format("%s-%s-%s-%s-web-config", var.prefix, var.region_name, var.stage, var.service)
   image_id      = data.aws_ami.ubuntu18.id
-  instance_type = var.instance_type
+  instance_type = var.instance_type_openapi
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_api.name
+
+  security_groups = [module.openapi_sg.this_security_group_id]
 
   # set user data for configuring server  
   user_data               = data.template_cloudinit_config.openapi.rendered
@@ -37,7 +39,9 @@ resource "aws_autoscaling_group" "api_asg" {
   desired_capacity        = 1
   min_size                = 1
   max_size                = 2
-  vpc_zone_identifier     = module.vpc.public_subnets
+  vpc_zone_identifier     = module.vpc.private_subnets
+
+  target_group_arns = module.lb_openapi.target_group_arns
 
   lifecycle {
     create_before_destroy = true

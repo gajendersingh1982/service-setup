@@ -12,7 +12,8 @@ sudo groupadd tomcat
 sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
 
 cd /tmp
-curl -O http://apache.mirrors.ionfish.org/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz
+sudo wget https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.54/bin/apache-tomcat-8.5.54.tar.gz
+#curl -O http://apache.mirrors.ionfish.org/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz
 
 sudo mkdir /opt/tomcat
 sudo tar xzvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
@@ -74,3 +75,20 @@ sudo ufw allow 8080
 
 # Update tomcat-user using sed
 # Update context.xml using sed
+
+
+
+
+# # Set alll enviornment variables here
+
+# # Make deploy dir and give tomcat permission on it
+sudo mkdir /data/deploy
+sudo chgrp -R tomcat /data/deploy
+
+# ####################################################################
+# # Copy Release binary in this Instance when launching and explode *.war
+# ####################################################################
+# # Download AWS CLI
+# sudo apt-get install awscli -y
+
+# aws s3 mv s3://tf-virginia-dev-galaxybadge-release/* /data/deploy

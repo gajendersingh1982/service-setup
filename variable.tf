@@ -1,11 +1,11 @@
 variable "myip" {
   description = "my IP"
-  default = "182.77.7.242/32"
+  default = "122.177.181.124/32"
 }
 
 variable "publicIP" {
   description = "my IP"
-  default = "182.77.7.242/32"
+  default = "122.177.181.124/32"
 }
 
 variable "vpc_cidr" {
@@ -32,7 +32,7 @@ variable "region_name" {
 }
 
 variable "service" {
-  default = "galaxy-badge"
+  default = "galaxybadge"
 }
 
 variable "stage" {
@@ -56,14 +56,4 @@ variable "tags" {
     "Stage"     = "dev"
     "Creator"   = "gajender.s"
   }
-}
-
-variable "instance_type"{
-  description = "Instance Type"
-  default = "t3.micro"
-}
-
-variable "key_name"{
-  description = "Instance Type"
-  default = "gaj_test"
 }

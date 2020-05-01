@@ -2,11 +2,11 @@ module "db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 2.0"
 
-  identifier = format("%s-%s-%s-%s-DB", var.prefix, var.region_name, var.stage, var.service)
+  identifier = format("%s-%s-%s-%s-db", var.prefix, var.region_name, var.stage, var.service)
 
   engine            = "mysql"
   engine_version    = "5.7.19"
-  instance_class    = "db.t2.small"
+  instance_class    = var.rds_instance_type
   allocated_storage = 5
 
   name     = "demodb"
@@ -16,7 +16,7 @@ module "db" {
 
   iam_database_authentication_enabled = true
 
-  vpc_security_group_ids = ["sg-12345678"]
+  vpc_security_group_ids = [module.db_sg.this_security_group_id]
   publicly_accessible = false
 
   maintenance_window = "Mon:00:00-Mon:03:00"
@@ -38,7 +38,7 @@ module "db" {
   major_engine_version = "5.7"
 
   # Snapshot name upon DB deletion
-  final_snapshot_identifier = "demodb"
+  final_snapshot_identifier = format("%s-%s-%s-%s-db-backup", var.prefix, var.region_name, var.stage, var.service)
 
   # Database Deletion Protection
   deletion_protection = true
@@ -54,7 +54,7 @@ module "db" {
     }
   ]
 
-  options = [
+options = [
     {
       option_name = "MARIADB_AUDIT_PLUGIN"
 
