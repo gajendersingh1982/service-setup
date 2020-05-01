@@ -59,3 +59,18 @@ module "loadbalancer_admin_sg" {
 
   tags        = var.tags #Use common_vars.tf file for tags.Refer Note Below.
 }
+
+
+module "db_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = format("%s-%s-%s-%s-alb-admin-sg", var.prefix, var.region_name, var.stage, var.service)
+  description = "Security group for prometheus"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress_cidr_blocks = [var.myip, var.vpc_cidr]
+  ingress_rules       = ["mysql-tcp"]
+  egress_rules        = ["all-all"]
+
+  tags        = var.tags #Use common_vars.tf file for tags.Refer Note Below.
+}
