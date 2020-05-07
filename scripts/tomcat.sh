@@ -64,6 +64,13 @@ Restart=always
 WantedBy=multi-user.target
 EOM
 
+####################################################################
+# Copy Release binary in this Instance when launching and explode *.war
+####################################################################
+# Download AWS CLI
+# sudo apt-get install awscli -y
+# aws s3 mv s3://tf-virginia-dev-galaxybadge-release/ROOT.war /opt/tomcat/webapps
+
 sudo systemctl daemon-reload
 sudo systemctl start tomcat
 sudo systemctl status tomcat
@@ -71,7 +78,7 @@ sudo systemctl enable tomcat
 
 
 # Allow firewall
-sudo ufw allow 8080
+# sudo ufw allow 8080
 
 # Update tomcat-user using sed
 # Update context.xml using sed
@@ -82,8 +89,8 @@ sudo ufw allow 8080
 # # Set alll enviornment variables here
 
 # # Make deploy dir and give tomcat permission on it
-sudo mkdir /data/deploy
-sudo chgrp -R tomcat /data/deploy
+# sudo mkdir /data/deploy
+# sudo chgrp -R tomcat /data/deploy
 
 # ####################################################################
 # # Copy Release binary in this Instance when launching and explode *.war
