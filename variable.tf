@@ -43,12 +43,10 @@ variable "stage" {
   description = "AWS VPC Region"
   default = "us-east-1"
  }
-
 variable "azs" {
   description = "List of azs"
   default = ["us-east-1a", "us-east-1b"]
 }
-
 variable "tags" {
   description = "A mapping of tags to assign to the resource"
   default = {
