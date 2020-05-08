@@ -33,39 +33,39 @@ sudo update-java-alternatives -l
 # Download AWS CLI
 sudo apt-get install awscli -y
 
-#Create the tomcat service file.
-sudo touch /etc/systemd/system/tomcat.service
+# #Create the tomcat service file.
+# sudo touch /etc/systemd/system/tomcat.service
 
-FILE="/etc/systemd/system/tomcat.service"
+# FILE="/etc/systemd/system/tomcat.service"
 
-# edit tomcat service config file for the PDB server
-sudo /bin/cat <<EOM >$FILE
-[Unit]
-Description=Apache Tomcat Web Application Container
-After=network.target
+# # edit tomcat service config file for the PDB server
+# sudo /bin/cat <<EOM >$FILE
+# [Unit]
+# Description=Apache Tomcat Web Application Container
+# After=network.target
 
-[Service]
-Type=forking
+# [Service]
+# Type=forking
 
-Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
-Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
-Environment=CATALINA_HOME=/opt/tomcat
-Environment=CATALINA_BASE=/opt/tomcat
-Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
-Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+# Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
+# Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+# Environment=CATALINA_HOME=/opt/tomcat
+# Environment=CATALINA_BASE=/opt/tomcat
+# Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+# Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
 
-ExecStart=/opt/tomcat/bin/startup.sh
-ExecStop=/opt/tomcat/bin/shutdown.sh
+# ExecStart=/opt/tomcat/bin/startup.sh
+# ExecStop=/opt/tomcat/bin/shutdown.sh
 
-User=tomcat
-Group=tomcat
-UMask=0007
-RestartSec=10
-Restart=always
+# User=tomcat
+# Group=tomcat
+# UMask=0007
+# RestartSec=10
+# Restart=always
 
-[Install]
-WantedBy=multi-user.target
-EOM
+# [Install]
+# WantedBy=multi-user.target
+# EOM
 
 
 ####################################################################
@@ -78,7 +78,6 @@ EOM
 # sudo systemctl start tomcat
 # sudo systemctl status tomcat
 # sudo systemctl enable tomcat
-
 
 # Allow firewall
 #sudo ufw allow 8080
