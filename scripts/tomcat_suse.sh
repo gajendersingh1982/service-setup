@@ -5,8 +5,9 @@
 set -x
 exec >> /var/log/user-data-tomcat.log 2>&1
 
-sudo apt-get update -y
-sudo apt install default-jdk -y
+sudo yum update -y
+# sudo yum install default-jdk -y
+sudo yum install java-1.8.0-openjdk -y
 
 sudo groupadd tomcat
 sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
@@ -28,7 +29,7 @@ sudo chmod g+x conf
 
 sudo chown -R tomcat webapps/ work/ temp/ logs/
 
-sudo update-java-alternatives -l
+# sudo update-java-alternatives -l
 
 #Create the tomcat service file.
 touch /etc/systemd/system/tomcat.service
@@ -64,14 +65,12 @@ Restart=always
 WantedBy=multi-user.target
 EOM
 
-sudo rm -rf /opt/tomcat/webapps/*
-
 ####################################################################
 # Copy Release binary in this Instance when launching and explode *.war
 ####################################################################
 # Download AWS CLI
-sudo apt-get install awscli -y
-aws s3 mv s3://tf-virginia-dev-galaxybadge-release/ROOT.war /opt/tomcat/webapps
+# sudo apt-get install awscli -y
+# aws s3 mv s3://tf-virginia-dev-galaxybadge-release/ROOT.war /opt/tomcat/webapps
 
 sudo systemctl daemon-reload
 sudo systemctl start tomcat

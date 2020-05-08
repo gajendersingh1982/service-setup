@@ -23,7 +23,7 @@ module "admin" {
   
   #essential [required for Infra Governance]
   name                    = format("%s-%s-%s-%s-admin", var.prefix, var.region_name, var.stage, var.service)
-  instance_count          = "1"
+  instance_count          = var.admin_count
 
   ami                     = data.aws_ami.ubuntu18.id
   instance_type           = var.instance_type_admin
@@ -31,7 +31,7 @@ module "admin" {
   monitoring              = false
 
   vpc_security_group_ids  = [module.batch_sg.this_security_group_id]
-  subnet_id               = module.vpc.public_subnets[0]
+  subnet_ids              = module.vpc.public_subnets
 
   # set instance profile to give EC2 read only permissions
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_api.name
@@ -44,10 +44,12 @@ module "admin" {
 
 #EIP for Batch server
 resource "aws_eip" "eip_admin" {
+  count = var.admin_count
   vpc = true
 }
 
 resource "aws_eip_association" "eip_assoc_admin" {
-  instance_id = module.admin.id[0]
-  allocation_id = aws_eip.eip_admin.id
+  count         = var.admin_count
+  instance_id   = element(module.admin.id[*], count.index)
+  allocation_id = element(aws_eip.eip_admin.*.id, count.index)
 }
