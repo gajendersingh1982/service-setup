@@ -4,44 +4,45 @@ module "db" {
 
   identifier = format("%s-%s-%s-%s-db", var.prefix, var.region_name, var.stage, var.service)
 
-  engine            = "mysql"
-  engine_version    = "5.7.19"
-  instance_class    = var.rds_instance_type
-  allocated_storage = 5
+  engine                                = "mysql"
+  engine_version                        = "5.7.19"
+  instance_class                        = var.rds_instance_type
+  allocated_storage                     = 5
+  max_allocated_storage                 = 10
 
-  name     = "demodb"
-  username = "user"
-  password = "YourPwdShouldBeLongAndSecure!"
-  port     = "3306"
+  name                                  = "demodb"
+  username                              = "user"
+  password                              = "YourPwdShouldBeLongAndSecure!"
+  port                                  = "3306"
 
-  iam_database_authentication_enabled = true
+  iam_database_authentication_enabled   = true
 
-  vpc_security_group_ids = [module.db_sg.this_security_group_id]
-  publicly_accessible = false
+  vpc_security_group_ids                = [module.db_sg.this_security_group_id]
+  publicly_accessible                   = false
 
-  maintenance_window = "Mon:00:00-Mon:03:00"
-  backup_window      = "03:00-06:00"
+  maintenance_window                    = "Mon:00:00-Mon:03:00"
+  backup_window                         = "03:00-06:00"
 
   # # Enhanced Monitoring - see example for details on how to create the role
   # # by yourself, in case you don't want to create it automatically
-  # monitoring_interval = "30"
-  # monitoring_role_name = "MyRDSMonitoringRole"
-  # create_monitoring_role = true
+  # monitoring_interval                 = "30"
+  # monitoring_role_name                = "MyRDSMonitoringRole"
+  # create_monitoring_role              = true
 
   # DB subnet group
-  subnet_ids = module.vpc.private_subnets
+  subnet_ids                            = module.vpc.private_subnets
 
   # DB parameter group
-  family = "mysql5.7"
+  family                                = "mysql5.7"
 
   # DB option group
-  major_engine_version = "5.7"
+  major_engine_version                  = "5.7"
 
   # Snapshot name upon DB deletion
   final_snapshot_identifier = format("%s-%s-%s-%s-db-backup", var.prefix, var.region_name, var.stage, var.service)
 
   # Database Deletion Protection
-  deletion_protection = true
+  deletion_protection     = true
 
   parameters = [
     {

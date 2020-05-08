@@ -67,7 +67,6 @@ sudo apt-get install awscli -y
 # WantedBy=multi-user.target
 # EOM
 
-
 ####################################################################
 # Copy Release binary in this Instance when launching and explode *.war
 ####################################################################
@@ -81,9 +80,6 @@ sudo apt-get install awscli -y
 
 # Allow firewall
 #sudo ufw allow 8080
-
-# Update tomcat-user using sed
-# Update context.xml using sed
 
 # # Set alll enviornment variables here
 
