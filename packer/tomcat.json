@@ -50,8 +50,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "../scripts/tomcat.sh",
-      "max_retries": 3
+      "script": "../scripts/tomcat_packer.sh"
     }
   ]
 }
