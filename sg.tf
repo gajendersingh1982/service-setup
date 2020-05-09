@@ -22,7 +22,8 @@ module "loadbalancer_openapi_sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress_cidr_blocks = [var.publicIP]
-  ingress_rules       = ["https-443-tcp","http-80-tcp", "all-icmp"]
+  #ingress_rules       = ["https-443-tcp","http-80-tcp", "all-icmp"]
+  ingress_rules       = ["https-443-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 
   tags        = var.tags #Use common_vars.tf file for tags.Refer Note Below.
