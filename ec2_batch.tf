@@ -38,6 +38,7 @@ module "batch" {
 
   # set user data for configuring server  
   user_data               = data.template_cloudinit_config.batch.rendered
+  #user_data = "${file("install_apache.sh")}"
 
   tags                    = var.tags
 }
