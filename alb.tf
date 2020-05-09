@@ -40,29 +40,7 @@ module "lb_openapi_admin" {
       tags = {
         InstanceTargetGroupTag = "jenkins"
       }
-    },
-    {
-       name_prefix          = "admin"
-       backend_protocol     = "HTTP"
-       backend_port         = 8080
-       target_type          = "instance"
-       deregistration_delay = 10
-       health_check = {
-         enabled             = true
-         interval            = 30
-         path                = "/admin/*"
-         port                = "traffic-port"
-         healthy_threshold   = 3
-         unhealthy_threshold = 3
-         timeout             = 6
-         protocol            = "HTTP"
-         matcher             = "200-399"
-       }
-       tags = {
-         InstanceTargetGroupTag = "jenkins"
-       }
-      }
-
+    }
    ]
 
 #   access_logs {
@@ -77,41 +55,3 @@ module "lb_openapi_admin" {
 }
 
 
-################################
-resource "aws_lb_listener_rule" "openapi" {
-  listener_arn = module.lb_openapi_admin.https_listener_arns[0]
-  priority     = 99
-
-  action {
-    type             = "forward"
-    target_group_arn = module.lb_openapi_admin.target_group_arns[0]
-  }
-
-  condition {
-    path_pattern {
-      values = ["/openapi/*"]
-    }
-  }
-
- }
-
-
-
-resource "aws_lb_listener_rule" "admin" {
-  listener_arn = module.lb_openapi_admin.https_listener_arns[0]
-  priority     = 100
-
-  action {
-    type             = "forward"
-    target_group_arn = module.lb_openapi_admin.target_group_arns[1]
-  }
-
-  condition {
-    path_pattern {
-      values = ["/admin/*"]
-    }
-  }
-
- }
-
-                                                      
