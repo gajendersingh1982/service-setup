@@ -1,4 +1,4 @@
-module "lb_openapi_admin" {
+module "lb_openapi" {
   source  = "terraform-aws-modules/alb/aws"
 
   name               = format("%s-%s-%s-%s-alb-api", var.prefix, var.region_name, var.stage, "gb")
