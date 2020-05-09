@@ -38,7 +38,7 @@ resource "aws_iam_role_policy" "ec2_policy_api" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::tf-virginia-dev-galaxybadge-*/*"
+            "Resource": "arn:aws:s3:::${aws_s3_bucket.releasebucket.id}-*/*"
         },
         {
             "Sid": "VisualEditor1",
