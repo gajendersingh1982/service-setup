@@ -34,7 +34,7 @@ module "batch" {
   subnet_id               = module.vpc.public_subnets[0]
 
   # set instance profile to give EC2 read only permissions
-  iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_api.name
+  iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_batch.name
 
   # set user data for configuring server  
   user_data               = data.template_cloudinit_config.batch.rendered
