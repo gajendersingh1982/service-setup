@@ -22,21 +22,23 @@ cd /opt/tomcat
 
 # Give the tomcat group ownership over the entire installation directory:
 sudo chgrp -R tomcat /opt/tomcat
-
 sudo chmod -R g+r conf
 sudo chmod g+x conf
-
 sudo chown -R tomcat webapps/ work/ temp/ logs/
+######################################################
+
+sudo rm -rf /opt/tomcat/webapps/*       # remove all stuff from webapps, we will add our release here
 
 sudo update-java-alternatives -l
 
+####################################################################
+# Copy Release binary in this Instance when launching and explode *.war
+####################################################################
+# Download AWS CLI
+sudo apt-get install awscli -y
+
 #Create the tomcat service file.
-touch /etc/systemd/system/tomcat.service
-
-FILE="/etc/systemd/system/tomcat.service"
-
-# edit tomcat service config file for the PDB server
-/bin/cat <<EOM >$FILE
+sudo cat > '/tmp/tomcat.service' <<EOM
 [Unit]
 Description=Apache Tomcat Web Application Container
 After=network.target
@@ -44,7 +46,7 @@ After=network.target
 [Service]
 Type=forking
 
-Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
+Environment=JAVA_HOME=/usr/lib/jvm/default-java
 Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
 Environment=CATALINA_HOME=/opt/tomcat
 Environment=CATALINA_BASE=/opt/tomcat
@@ -64,32 +66,10 @@ Restart=always
 WantedBy=multi-user.target
 EOM
 
-sudo rm -rf /opt/tomcat/webapps/*
-
-####################################################################
-# Copy Release binary in this Instance when launching and explode *.war
-####################################################################
-# Download AWS CLI
-sudo apt-get install awscli -y
-aws s3 mv s3://tf-virginia-dev-galaxybadge-release/ROOT.war /opt/tomcat/webapps
+# Move to correct dir for registering as service
+sudo mv /tmp/tomcat.service /etc/systemd/system/tomcat.service
 
 sudo systemctl daemon-reload
 sudo systemctl start tomcat
 sudo systemctl status tomcat
 sudo systemctl enable tomcat
-
-
-# Allow firewall
-#sudo ufw allow 8080
-
-# Update tomcat-user using sed
-# Update context.xml using sed
-
-# # Set alll enviornment variables here
-
-# # Make deploy dir and give tomcat permission on it
-# sudo mkdir /data/deploy
-# sudo chgrp -R tomcat /data/deploy
-
-# wget https://s3.us-east-1.amazonaws.com/amazoncloudwatch-agent-us-east-1/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
-# sudo dpkg -i -E ./amazon-cloudwatch-agent.deb

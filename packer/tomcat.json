@@ -12,7 +12,7 @@
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
-          "name": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*",
+          "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*",
           "root-device-type": "ebs",
           "architecture": "x86_64"
         },
@@ -29,6 +29,9 @@
         ],
         "most_recent": true
       },
+      "temporary_security_group_source_cidrs": [
+        "122.177.251.221/32"
+      ],
       "instance_type": "t2.micro",
       "ssh_username": "ubuntu",
       "ami_name": "{{user `ami_name` | clean_resource_name}}",
@@ -50,13 +53,17 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "../scripts/tomcat_packer.sh",
-      "max_retries": 3
+      "scripts": [
+        "../scripts/tomcat.sh",
+        "../scripts/release.sh"
+      ],
+      "pause_before": "10s"
     },
     {
       "type": "file",
       "source": "./ROOT.war",
-      "destination": "/opt/tomcat/webapps/ROOT.war"
+      "destination": "/opt/tomcat/webapps/ROOT.war",
+      "pause_before": "10s"
     }
   ]
 }

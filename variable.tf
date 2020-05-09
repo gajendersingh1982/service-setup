@@ -1,11 +1,11 @@
 variable "myip" {
   description = "my IP"
-  default = "122.177.9.54/32"
+  default = "122.177.25.87/32"
 }
 
 variable "publicIP" {
   description = "my IP"
-  default = "122.177.9.54/32"
+  default = "122.177.25.87/32"
 }
 
 variable "vpc_cidr" {
