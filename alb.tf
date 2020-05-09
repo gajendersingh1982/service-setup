@@ -54,4 +54,28 @@ module "lb_openapi" {
   }
 }
 
+resource "aws_lb_listener_rule" "admin" {
+  listener_arn = module.lb_openapi.https_listener_arns[0]
+  priority     = 100
+    
+  action {
+    type = "fixed-response"
 
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "FORBIDDEN"
+      status_code  = "403"
+    }
+  }
+    
+  condition {
+    path_pattern {
+      values = ["/admin/*"]
+    }
+  }
+
+ }
+
+
+  
+ 
