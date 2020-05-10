@@ -6,11 +6,14 @@
 
 
 # Second-Step:
-As a second step, we will execute "service-jenkins-batch" folder, which creates our jenkins-batch server
+As a second step, we will excute "infra" folder, which creates our network like vpc,etc.
+
+# Third-Step:
+As a third step,we will execute "service-jenkins-batch" folder, which creates our jenkins-batch server
 Note: we will install packer also in batch-jenkins server via user data
 
 
-# Third-Step:
+# Fourth-Step:
 After  jenkins-batch server is running, we will login to server via console and create 2 jobs.
 ## first jenkins job:
 -First Job is for packer-build , which build the packer and will send the ami_vars.tf file to s3.(code is from app-repo)
