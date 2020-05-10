@@ -1,0 +1,79 @@
+#!/usr/bin/env groovy
+
+//
+// Terraform Pipeline
+// 
+// Repository   | https://git.samsungmtv.com/
+// Environment  | AWS
+// AWS Key      | Not required
+// Build Tool   | mster node
+// Parameters   |----------------------------------------------------------------------|
+//              | DevOps Defined Parameter                                             |
+//              |----------------------------------------------------------------------|
+//              | 1 | ORG_NAME    | Mandatory | VD-SmartTV-IaC                         |
+//              | 2 | REPO_NAME   | Mandatory | apps, tnc, browser                     |
+//              | 3 | BRANCH      | Mandatory | dev, stg, prd                          |
+//              | 4 | PR_ID       | Optional  | Pull Request ID                        |
+//              | 5 | STAGE       | Mandatory | dev, stg, prd                          |
+//				|----------------------------------------------------------------------|
+//              | Service Defined Parameter                                            |
+//              |----------------------------------------------------------------------|
+//              | 6 | XXX_NAME    | Optional |                     					   |
+//              | 7 | XXXX_NAME   | Optional |      					               |
+//              | 8 | XXXXXX      | Optional |  			                           |
+//              | 9 | XXXXX       | Optional | 				                           |
+//              | 10| XXXXX       | Optional | 		                                   |
+
+
+def repoUrl = env.GIT_URL + params.ORG_NAME +'/'+ params.REPO_NAME
+def slaveNode = "$env.JOB_URL".contains('job/cn_') ? 'cngradle5' : 'linux'
+
+pipeline {
+    /* insert Declarative Pipeline here */
+	options { 
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr:'20'))
+    }
+	
+	stages {
+		stage('Cleanup Workspace') {
+			steps {
+				cleanWs()
+			}
+		}
+		
+        stage('Checkout') {
+            steps {
+                git url: repoUrl, branch: params.BRANCH, credentialsId: env.GIT_CREDENTIALS_ID
+				sh 'echo $PWD'
+				sh 'cd ./service'
+            }
+        }
+		
+		stage('init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+		
+		stage('plan') {
+            steps {
+                sh 'terraform plan -var="bucket_name=gajender" -var="table_name=gajender_db_1"'
+            }
+        }
+		
+		stage('apply') {
+			input {
+                message "Review plan and continue to change Infra?"
+                ok "Yes, we should."
+                submitter "gajender,singh"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Gajender Singh', description: 'Continue to apply the chnages')
+                }
+            }
+            steps {
+                sh 'terraform apply -auto-approve -var="bucket_name=gajender" -var="table_name=gajender_db_1"'
+            }
+        }
+    }
+}
