@@ -35,15 +35,14 @@ resource "aws_iam_role_policy" "ec2_policy_api" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
+            "Sid": "CloudwatchLogsAccess",
             "Effect": "Allow",
-            "Action": "s3:GetObject",
-            "Resource": "*"
-        },
-        {
-            "Sid": "VisualEditor1",
-            "Effect": "Allow",
-            "Action": "s3:List*",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams"
+            ],
             "Resource": "*"
         }
     ]

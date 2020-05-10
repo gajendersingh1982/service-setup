@@ -25,6 +25,7 @@ resource "aws_iam_instance_profile" "ec2_instance_profile_admin" {
   role =  aws_iam_role.ec2_role_admin.name
 }
 
+/*
 ###Custom Policies can be defined as per requirement
 resource "aws_iam_role_policy" "ec2_policy_admin" {
   name = format("%s-%s-%s-%s-admin-policy", var.prefix, var.region_name, var.stage, var.service)
@@ -50,3 +51,4 @@ resource "aws_iam_role_policy" "ec2_policy_admin" {
 }
 EOF
 }
+*/
