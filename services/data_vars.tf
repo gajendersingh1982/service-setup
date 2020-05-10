@@ -24,8 +24,8 @@ data "aws_ami" "ubuntu18" {
     values = ["hvm"]
   }
 }
-/*
+
 data "aws_acm_certificate" "domain" {
   domain    = "abc.com"
 }
-*/
+
