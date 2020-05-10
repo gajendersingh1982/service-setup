@@ -35,18 +35,6 @@ resource "aws_iam_role_policy" "ec2_policy_batch" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": ["s3:GetObject","s3:PutObject"],
-            "Resource": "arn:aws:s3:::${aws_s3_bucket.releasebucket.id}-*/*"
-        },
-        {
-            "Sid": "VisualEditor1",
-            "Effect": "Allow",
-            "Action": "s3:List*",
-            "Resource": "*"
-        },
-        {
             "Sid": "EC2ForPacker",
             "Effect": "Allow",
             "Action": "ec2:*",
