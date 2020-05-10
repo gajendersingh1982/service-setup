@@ -1,12 +1,17 @@
 {
   "variables": {
     "aws_region": "",
-    "ami_name": "ami-tomcat-{{timestamp}}"
+    "ami_name": "ami-gb-was-{{timestamp}}",
+    "user_name": "gajender.s",
+    "service": "gb"
   },
   "builders": [
     {
-      "name": "AWS AMI Builder - CIS",
-      "profile": "mcbadge",
+      "temporary_security_group_source_cidrs": [
+        "122.177.159.124/32"
+      ],
+      "profile": "default",
+      "name": "AWS AMI Builder - Web Server",
       "type": "amazon-ebs",
       "region": "{{user `aws_region`}}",
       "source_ami_filter": {
@@ -29,14 +34,13 @@
         ],
         "most_recent": true
       },
-      "temporary_security_group_source_cidrs": [
-        "122.177.251.221/32"
-      ],
       "instance_type": "t2.micro",
       "ssh_username": "ubuntu",
       "ami_name": "{{user `ami_name` | clean_resource_name}}",
       "tags": {
-        "Name": "{{user `ami_name`}}"
+        "Name": "{{user `ami_name`}}",
+        "Owner": "{{user `user_name`}}",
+        "Service": "{{user `service`}}"
       },
       "run_tags": {
         "Name": "{{user `ami_name`}}"
@@ -45,7 +49,9 @@
         "Name": "{{user `ami_name`}}"
       },
       "snapshot_tags": {
-        "Name": "{{user `ami_name`}}"
+        "Name": "{{user `ami_name`}}",
+        "Owner": "{{user `user_name`}}",
+        "Service": "{{user `service`}}"
       },
       "ami_description": "Ubuntu Image with tomcat"
     }
@@ -53,16 +59,18 @@
   "provisioners": [
     {
       "type": "shell",
-      "scripts": [
-        "../scripts/tomcat.sh",
-        "../scripts/release.sh"
-      ],
+      "script": "../scripts/was.sh",
       "pause_before": "10s"
     },
     {
       "type": "file",
       "source": "./ROOT.war",
       "destination": "/opt/tomcat/webapps/ROOT.war",
+      "pause_before": "10s"
+    },
+    {
+      "type": "shell",
+      "script": "../scripts/cloudwatchAgent.sh",
       "pause_before": "10s"
     }
   ]

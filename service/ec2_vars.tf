@@ -3,11 +3,6 @@ variable "instance_type_batch"{
   default = "t3.micro"
 }
 
-variable "admin_count"{
-  description = "Count"
-  default = "2"
-}
-
 variable "instance_type_admin"{
   description = "Instance Type"
   default = "t3.micro"
@@ -23,7 +18,13 @@ variable "rds_instance_type"{
   default = "db.t2.small"
 }
 
+# variable "engine_version"
+# {
+#     default = 
+# }
+
 variable "key_name"{
   description = "Instance Type"
   default = "gaj_test"
 }
+

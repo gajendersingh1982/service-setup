@@ -4,9 +4,11 @@ module "lb_openapi" {
   name               = format("%s-%s-%s-%s-alb-api", var.prefix, var.region_name, var.stage, "gb")
   internal           = false
   load_balancer_type = "application"
-  vpc_id             = module.vpc.vpc_id
+  #vpc_id             = module.vpc.vpc_id
+  vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
   security_groups    = [module.loadbalancer_openapi_sg.this_security_group_id]
-  subnets            = module.vpc.public_subnets
+  #subnets            = module.vpc.public_subnets
+  subnets            = data.terraform_remote_state.infra.outputs.public_subnets
 
   enable_deletion_protection = true
   
@@ -85,9 +87,11 @@ resource "aws_lb_listener_rule" "admin" {
   name               = format("%s-%s-%s-%s-alb-adm", var.prefix, var.region_name, var.stage, "gb")
   internal           = false
   load_balancer_type = "application"
-  vpc_id             = module.vpc.vpc_id
+  #vpc_id             = module.vpc.vpc_id
+  vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
   security_groups    = [module.loadbalancer_admin_sg.this_security_group_id]
-  subnets            = module.vpc.public_subnets
+  #subnets            = module.vpc.public_subnets
+  subnets            = data.terraform_remote_state.infra.outputs.public_subnets
 
   enable_deletion_protection = true
 
@@ -134,3 +138,4 @@ resource "aws_lb_listener_rule" "admin" {
     Environment = var.stage
   }
 }
+

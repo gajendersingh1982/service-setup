@@ -1,11 +1,11 @@
 variable "myip" {
   description = "my IP"
-  default = "122.177.25.87/32"
+  default = "122.177.159.124/32"
 }
 
 variable "publicIP" {
   description = "my IP"
-  default = "122.177.25.87/32"
+  default = "122.177.159.124/32"
 }
 
 variable "vpc_cidr" {
@@ -43,15 +43,16 @@ variable "stage" {
   description = "AWS VPC Region"
   default = "us-east-1"
  }
+
 variable "azs" {
   description = "List of azs"
   default = ["us-east-1a", "us-east-1b"]
 }
+
 variable "tags" {
   description = "A mapping of tags to assign to the resource"
   default = {
-    "Service"   = "gb"
+    "Service" = "gb"
     "Stage"     = "dev"
-    "Creator"   = "gajender.s"
   }
 }

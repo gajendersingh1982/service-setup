@@ -35,14 +35,15 @@ resource "aws_iam_role_policy" "ec2_policy_api" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "CloudwatchPermissions",
+            "Sid": "VisualEditor0",
             "Effect": "Allow",
-            "Action": [
-                "cloudwatch:PutMetricData",
-                "ec2:DescribeTags",
-                "cloudwatch:GetMetricStatistics",
-                "cloudwatch:ListMetrics"
-            ],
+            "Action": "s3:GetObject",
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "s3:List*",
             "Resource": "*"
         }
     ]

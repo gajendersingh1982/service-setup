@@ -1,3 +1,7 @@
+locals {
+  was_ami = data.aws_ami.was_ami.id
+}
+
 data "template_file" "setup-admin" {
   template = file("./scripts/tomcat.sh")
   vars = {
@@ -23,33 +27,23 @@ module "admin" {
   
   #essential [required for Infra Governance]
   name                    = format("%s-%s-%s-%s-admin", var.prefix, var.region_name, var.stage, var.service)
-  instance_count          = var.admin_count
+  instance_count          = "1"
 
-  ami                     = data.aws_ami.ubuntu18.id
+  ami                     = local.was_ami
   instance_type           = var.instance_type_admin
   key_name                = var.key_name
   monitoring              = false
 
-  vpc_security_group_ids  = [module.batch_sg.this_security_group_id]
-  subnet_ids              = module.vpc.public_subnets
+  vpc_security_group_ids  = [module.admin_sg.this_security_group_id]
+  #subnet_id               = module.vpc.public_subnets[0]
+  subnet_id               = data.terraform_remote_state.infra.outputs.private_subnets[0]
 
   # set instance profile to give EC2 read only permissions
-  iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_api.name
+  iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_admin.name
 
   # set user data for configuring server  
-  user_data               = data.template_cloudinit_config.admin.rendered
+  #user_data               = data.template_cloudinit_config.admin.rendered
 
   tags                    = var.tags
 }
 
-#EIP for Batch server
-resource "aws_eip" "eip_admin" {
-  count = var.admin_count
-  vpc = true
-}
-
-resource "aws_eip_association" "eip_assoc_admin" {
-  count         = var.admin_count
-  instance_id   = element(module.admin.id[*], count.index)
-  allocation_id = element(aws_eip.eip_admin.*.id, count.index)
-}
