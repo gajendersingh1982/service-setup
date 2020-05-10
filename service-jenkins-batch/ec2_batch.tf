@@ -33,7 +33,7 @@ module "batch" {
   name                    = format("%s-%s-%s-%s-batch", var.prefix, var.region_name, var.stage, var.service)
   instance_count          = "1"
 
-  ami                     = data.aws_ami.ubuntu18.id
+  ami                     = data.aws_ami.ubuntu16.id
   instance_type           = var.instance_type_batch
   key_name                = var.key_name
   monitoring              = false
