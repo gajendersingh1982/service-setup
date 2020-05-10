@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O
 sudo python3 ./awslogs-agent-setup.py --region us-east-1 --non-interactive
 sudo rm /var/awslogs/etc/awslogs.conf
