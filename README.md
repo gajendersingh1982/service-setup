@@ -1,20 +1,20 @@
 # SERVICE INFRA
  Setup Service Infra
 
-# First-Step:
+## First-Step:
  At fist "terraform-state-s3" folder is executed, which creates backend-s3 used for storing terraform-state files
  - Fist execute with local state file
  - Then execute with State file as S3 so that transfer of state file happens
 
-# Second-Step:
+## Second-Step:
 As a second step, we will excute "network" folder, which creates our network like vpc, etc.
 
-# Third-Step:
+## Third-Step:
 Move into packer folder to build our golden AMI's
 - packer build batch.json
 - packer build was.json
 
-# Fourth-Step:
+## Fourth-Step:
 As a third step, we will execute "batch" folder, which creates our jenkins-batch server
 Note: Following willbe installed on this:
 - Java 11 Open JDK
@@ -22,13 +22,13 @@ Note: Following willbe installed on this:
 - Packer
 - Terraform
 
-# Fifth-Step:
+## Fifth-Step:
 After  jenkins-batch server is running, we will login to server via http and create jobs.
 - All Build Jenkins Job will be written in Jenkins Pipeline (Groovy)
 
-## first jenkins job:
+### first jenkins job:
 - First Job is for packer-build , which build the packer and will send the ami_vars.tf file to s3.(code is from app-repo)
-### script for first Job:
+#### script for first Job:
     ARTIFACT=`packer build -machine-readable packer-jenkins.json |awk -F, '$0 ~/artifact,0,id/ {print $6}'`
     AMI_ID=`echo $ARTIFACT | cut -d ':' -f2`
     echo 'variable "API_INSTANCE_AMI" { default = "'${AMI_ID}'" }' > amivar.tf
@@ -36,16 +36,16 @@ After  jenkins-batch server is running, we will login to server via http and cre
 
 Note: This packer-jenkins.json nned to be present in github-path for the job(app-code-github-path)
 
-## second-jenkins-job:
+### second-jenkins-job:
 - Second job is for terraform apply, which gets the code from github on "services" folder and then copies file("ami_vars.tf") from s3, and 
  then execute the terraform script
 
-### script for second Job:
+#### script for second Job:
     cd services
     aws s3 cp s3://devops-terraform-state-gb/vars/amivar.tf  amivar.tf
     terraform apply -auto-approve -var password="YourRdsPassword" -target module.db
 
-## Resources:
+### Resources:
 https://blog.gruntwork.io/how-to-manage-terraform-state-28f5697e68fa
 https://github.com/wardviaene/terraform-course/tree/master/jenkins-packer-demo
 
