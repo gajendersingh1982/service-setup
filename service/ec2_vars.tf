@@ -25,6 +25,6 @@ variable "rds_instance_type"{
 
 variable "key_name"{
   description = "Instance Type"
-  default = "github-keypair"
+  default = "gaj_test"
 }
 

@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket         = "devops-terraform-state-galaxy"
-    key            = "account-name/dev/infra/terraform.tfstate"
+    bucket         = "devops-terraform-state-gb"
+    key            = "dev/network/terraform.tfstate"
     region         = "us-east-1"
     
     dynamodb_table = "terraform-up-and-running-locks"

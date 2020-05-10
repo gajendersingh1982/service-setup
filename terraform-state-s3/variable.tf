@@ -4,14 +4,15 @@ variable "region" {
 }
 
 variable "bucket_name" {
-  default = "devops-terraform-state-galaxy"
+  default = "devops-terraform-state-gb"
 }
 
 
 variable "tags" {
   description = "A mapping of tags to assign to the resource"
   default = {
-    "Service" = "galaxy-badge"
+    "Service"   = "gb"
     "Stage"     = "dev"
+    "Owner"     = "gajender.s"
   }
 }

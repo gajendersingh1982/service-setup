@@ -1,11 +1,11 @@
 variable "myip" {
   description = "my IP"
-  default = "122.177.181.124/32"
+  default = "122.177.159.124/32"
 }
 
 variable "publicIP" {
   description = "my IP"
-  default = "122.177.181.124/32"
+  default = "122.177.159.124/32"
 }
 
 variable "vpc_cidr" {
@@ -32,7 +32,7 @@ variable "region_name" {
 }
 
 variable "service" {
-  default = "galaxybadgetest"
+  default = "gb"
 }
 
 variable "stage" {
@@ -52,7 +52,7 @@ variable "azs" {
 variable "tags" {
   description = "A mapping of tags to assign to the resource"
   default = {
-    "Service" = "galaxy-badge"
+    "Service" = "gb"
     "Stage"     = "dev"
     "Creator"   = "gajender.s"
   }

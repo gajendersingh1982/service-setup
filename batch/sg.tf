@@ -10,18 +10,16 @@ module "batch_sg" {
 
   ingress_cidr_blocks      = [var.myip]
   ingress_rules            = ["https-443-tcp", "http-8080-tcp", "ssh-tcp"]
+  
+  # computed_ingress_with_source_security_group_id = [
+  #   {
+  #     rule                     = "http-8080-tcp"
+  #     source_security_group_id = module.loadbalancer_admin_sg.this_security_group_id
+  #   }
+  # ]
+  # number_of_computed_ingress_with_source_security_group_id = 1
 
-  /*
-  computed_ingress_with_source_security_group_id = [
-    {
-      rule                     = "http-8080-tcp"
-      source_security_group_id = module.loadbalancer_admin_sg.this_security_group_id
-    }
-  ]
 
-  number_of_computed_ingress_with_source_security_group_id = 1
-  */
-
-  tags                     = var.tags #Use common_vars.tf file for tags.Refer Note Below.
+  tags                     = var.tags
 }
 

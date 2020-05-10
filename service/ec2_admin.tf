@@ -1,3 +1,7 @@
+locals {
+  was_ami = data.aws_ami.was_ami.id
+}
+
 data "template_file" "setup-admin" {
   template = file("./scripts/tomcat.sh")
   vars = {
@@ -25,7 +29,7 @@ module "admin" {
   name                    = format("%s-%s-%s-%s-admin", var.prefix, var.region_name, var.stage, var.service)
   instance_count          = "1"
 
-  ami                     = data.aws_ami.ubuntu18.id
+  ami                     = local.was_ami
   instance_type           = var.instance_type_admin
   key_name                = var.key_name
   monitoring              = false
