@@ -10,12 +10,12 @@
 As a second step, we will excute "network" folder, which creates our network like vpc, etc.
 
 ## Third-Step:
-Move into packer folder to build our golden AMI's
-- packer build batch.json
-- packer build was.json
+-Move into packer folder to build our golden AMI's.(packer build can be ran in local machine)
+  -- packer build batch.json
+-Transfer "was.json" file to your application code folder(your app repo) so that you can execute in later stage(in Fifth step as "- packer build was.json" )
 
 ## Fourth-Step:
-As a third step, we will execute "batch" folder, which creates our jenkins-batch server
+As a fourth step, we will execute "batch" folder, which creates our jenkins-batch server
 Note: Following willbe installed on this:
 - Java 11 Open JDK
 - Jenkins
@@ -29,20 +29,19 @@ After  jenkins-batch server is running, we will login to server via http and cre
 ### first jenkins job:
 - First Job is for packer-build , which build the packer and will send the ami_vars.tf file to s3.(code is from app-repo)
 #### script for first Job:
-    ARTIFACT=`packer build -machine-readable packer-jenkins.json |awk -F, '$0 ~/artifact,0,id/ {print $6}'`
+    ARTIFACT=`packer build -machine-readable was.json |awk -F, '$0 ~/artifact,0,id/ {print $6}'`
     AMI_ID=`echo $ARTIFACT | cut -d ':' -f2`
-    echo 'variable "API_INSTANCE_AMI" { default = "'${AMI_ID}'" }' > amivar.tf
-    aws s3 cp amivar.tf s3://devops-terraform-state-gb/vars/amivar.tf
+    echo 'variable "API_INSTANCE_AMI" { default = "'${AMI_ID}'" }' 
 
-Note: This packer-jenkins.json nned to be present in github-path for the job(app-code-github-path)
+Note: This was.json need to be present in github-path for the job(app-code-github-path)-(Refer Third step).
 
 ### second-jenkins-job:
-- Second job is for terraform apply, which gets the code from github on "services" folder and then copies file("ami_vars.tf") from s3, and 
- then execute the terraform script
+- Second job is for terraform apply, which gets the code from github on "services" folder and then execute the terraform script
 
 #### script for second Job:
     cd services
-    aws s3 cp s3://devops-terraform-state-gb/vars/amivar.tf  amivar.tf
+    terraform init
+    terraform plan
     terraform apply -auto-approve -var password="YourRdsPassword" -target module.db
 
 ### Resources:
