@@ -2,7 +2,7 @@
  Setup Service Infra
 
 ## First-Step:
- At fist "terraform-state-s3" folder is executed, which creates backend-s3 used for storing terraform-state files
+ At first "terraform-state-s3" folder is executed, which creates backend-s3 used for storing terraform-state files
  - Fist execute with local state file
  - Then execute with State file as S3 so that transfer of state file happens
 
