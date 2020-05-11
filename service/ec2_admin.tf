@@ -2,22 +2,23 @@ locals {
   was_ami = data.aws_ami.was_ami.id
 }
 
-data "template_file" "setup-admin" {
-  template = file("./scripts/tomcat.sh")
+data "template_file" "admin_env" {
+  template = file("./enviornment.sh")
   vars = {
-    # Any variables to be passed in shell script
+    aws_access_key_id = var.aws_access_key_id
+    secret_access_key_id = var.secret_access_key_id
   }
 }
 
-data "template_cloudinit_config" "admin" {
+data "template_cloudinit_config" "admin_config" {
   gzip          = true
   base64_encode = true
 
   # get user_data --> Prometheus
   part {
-    filename     = "jenkins-admin.cfg"
+    filename     = "admin.cfg"
     content_type = "text/x-shellscript"
-    content      = "${data.template_file.setup-admin.rendered}"
+    content      = "${data.template_file.admin_env.rendered}"
   }
 }
 
@@ -35,14 +36,13 @@ module "admin" {
   monitoring              = false
 
   vpc_security_group_ids  = [module.admin_sg.this_security_group_id]
-  #subnet_id               = module.vpc.public_subnets[0]
-  subnet_id               = data.terraform_remote_state.infra.outputs.private_subnets[0]
+  subnet_ids              = data.terraform_remote_state.infra.outputs.private_subnets
 
   # set instance profile to give EC2 read only permissions
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_admin.name
 
   # set user data for configuring server  
-  #user_data               = data.template_cloudinit_config.admin.rendered
+  user_data               = data.template_cloudinit_config.admin_config.rendered
 
   tags                    = var.tags
 }

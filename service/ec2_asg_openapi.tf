@@ -2,24 +2,25 @@ locals {
   asg_ami = data.aws_ami.was_ami.id
 }
 
-# data "template_file" "setup-tomcat" {
-#   template = file("./scripts/tomcat.sh")
-#   vars = {
-#     # Any variables to be passed in shell script
-#   }
-# }
+data "template_file" "openapi_env" {
+  template = file("./enviornment.sh")
+  vars = {
+    aws_access_key_id = var.aws_access_key_id
+    secret_access_key_id = var.secret_access_key_id
+  }
+}
 
-# data "template_cloudinit_config" "openapi" {
-#   gzip          = true
-#   base64_encode = true
+data "template_cloudinit_config" "openapi_config" {
+  gzip          = true
+  base64_encode = true
 
-#   # get user_data --> Prometheus
-#   part {
-#     filename     = "tomcat.cfg"
-#     content_type = "text/x-shellscript"
-#     content      = data.template_file.setup-tomcat.rendered
-#   }
-# }
+  # get user_data --> Prometheus
+  part {
+    filename     = "admin.cfg"
+    content_type = "text/x-shellscript"
+    content      = "${data.template_file.openapi_env.rendered}"
+  }
+}
 
 resource "aws_launch_configuration" "api_conf" {
   name          = format("%s-%s-%s-%s-web-config", var.prefix, var.region_name, var.stage, var.service)
@@ -31,7 +32,7 @@ resource "aws_launch_configuration" "api_conf" {
   security_groups = [module.openapi_sg.this_security_group_id]
 
   # set user data for configuring server  
-  #user_data               = data.template_cloudinit_config.openapi.rendered
+  user_data               = data.template_cloudinit_config.openapi_config.rendered
 
   lifecycle {
     create_before_destroy = true

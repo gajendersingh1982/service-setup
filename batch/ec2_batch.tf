@@ -50,7 +50,7 @@ module "batch" {
 
   vpc_security_group_ids  = [module.batch_sg.this_security_group_id]
   #subnet_id               = module.vpc.public_subnets[0]
-  subnet_id               = data.terraform_remote_state.infra.outputs.public_subnets[0]
+  subnet_ids               = data.terraform_remote_state.infra.outputs.public_subnets
 
   # set instance profile to give EC2 read only permissions
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_batch.name
