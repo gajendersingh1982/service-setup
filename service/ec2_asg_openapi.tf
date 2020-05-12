@@ -47,7 +47,7 @@ resource "aws_autoscaling_group" "api_asg" {
   max_size                = 2
   vpc_zone_identifier     = data.terraform_remote_state.infra.outputs.private_subnets  #module.vpc.private_subnets
 
-  #target_group_arns = module.lb_openapi.target_group_arns
+  target_group_arns = module.lb_openapi.target_group_arns
 
   lifecycle {
     create_before_destroy = true
