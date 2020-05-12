@@ -25,6 +25,7 @@ sudo chgrp -R tomcat /opt/tomcat
 sudo chmod -R g+r conf
 sudo chmod g+x conf
 sudo chown -R tomcat webapps/ work/ temp/ logs/
+sudo chmod o+rwx /opt/tomcat/webapps
 ######################################################
 
 sudo rm -rf /opt/tomcat/webapps/*       # remove all stuff from webapps, we will add our release here

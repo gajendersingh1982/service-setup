@@ -67,11 +67,6 @@
       "source": "./ROOT.war",
       "destination": "/opt/tomcat/webapps/ROOT.war",
       "pause_before": "10s"
-    },
-    {
-      "type": "shell",
-      "script": "../scripts/cloudwatchAgent.sh",
-      "pause_before": "10s"
     }
   ]
 }
