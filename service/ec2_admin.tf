@@ -47,3 +47,9 @@ module "admin" {
   tags                    = var.tags
 }
 
+
+ resource "aws_lb_target_group_attachment" "admin-tg-attachment-01" {
+  target_group_arn = module.lb_admin.target_group_arns[0]
+  target_id        = module.admin.id
+  port             = 80
+}
