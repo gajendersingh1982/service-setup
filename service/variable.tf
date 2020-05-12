@@ -39,6 +39,14 @@ variable "stage" {
   default = "dev"
 }
 
+variable "access" {
+  default = "access_key"
+}
+
+variable "secret" {
+  default = "dsecret_keyev"
+}
+
  variable "vpc_region" {
   description = "AWS VPC Region"
   default = "us-east-1"

@@ -31,7 +31,7 @@ module "lb_openapi" {
       health_check = {
         enabled             = true
         interval            = 30
-        path                = "/openapi/*"
+        path                = "/*"
         port                = "traffic-port"
         healthy_threshold   = 3
         unhealthy_threshold = 3
@@ -114,7 +114,7 @@ resource "aws_lb_listener_rule" "admin" {
       health_check = {
         enabled             = true
         interval            = 30
-        path                = "/admin/*"
+        path                = "/*"
         port                = "traffic-port"
         healthy_threshold   = 3
         unhealthy_threshold = 3

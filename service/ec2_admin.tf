@@ -5,8 +5,8 @@ locals {
 data "template_file" "admin_env" {
   template = file("./enviornment.sh")
   vars = {
-    aws_access_key_id = var.aws_access_key_id
-    secret_access_key_id = var.secret_access_key_id
+    aws_access_key_id = var.access
+    secret_access_key_id = var.secret
   }
 }
 

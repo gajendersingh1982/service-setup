@@ -4,15 +4,15 @@ export ENVIRONMENT='production'
 
 # MailTrain
 export MAILTRAIN_ON='OFF'
-export MAILTRAIN_ACCESS_TOKEN=''
-export MAILTRAIN_CLIENTID=''
+export MAILTRAIN_ACCESS_TOKEN='mailtrain_toke'
+export MAILTRAIN_CLIENTID='mailtrain_ID'
 
-export SECRET_KEY_BASE=''
+export SECRET_KEY_BASE='keybase'
 
 # Database
 export SPRING_DATASOURCE_DRIVER_CLASS_NAME='com.mysql.jdbc.Driver'
-export SPRING_DATASOURCE_PASSWORD=''
-export SPRING_DATASOURCE_URL=''
+export SPRING_DATASOURCE_PASSWORD='password'
+export SPRING_DATASOURCE_URL='url'
 export SPRING_DATASOURCE_USERNAME='gbadm'
 
 # AWS Creds

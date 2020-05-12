@@ -52,6 +52,6 @@ data "aws_ami" "ubuntu18" {
 }
 
 data "aws_acm_certificate" "domain" {
-  domain    = "abc.com"
+  domain    = "*.samsungops.com"
 }
 
