@@ -2,39 +2,6 @@ locals {
   batch_ami = data.aws_ami.batch_ami.id
 }
 
-# data "template_file" "setup-cloudwatchAgent" {
-#   template = file("../scripts/cloudwatchAgent.sh")
-#   vars = {
-#     # Any variables to be passed in shell script
-#     PACKER_VER = "1.5.6"
-#     TERRAFORM_VER = "0.12.24"
-#   }
-# }
-# data "template_file" "setup-batch" {
-#   template = file("../scripts/batch.sh")
-#   vars = {
-#     # Any variables to be passed in shell script
-#   }
-# }
-
-# data "template_cloudinit_config" "batch_config" {
-#   gzip          = true
-#   base64_encode = true
-
-#   # get user_data --> Batch Server
-#   part {
-#     filename     = "batch.cfg"
-#     content_type = "text/x-shellscript"
-#     content      = "${data.template_file.setup-batch.rendered}"
-#   }
-  
-#   part {
-#     filename     = "cloudwatchAgent.cfg"
-#     content_type = "text/x-shellscript"
-#     content      = "${data.template_file.setup-cloudwatchAgent.rendered}"
-#   }  
-# }
-
 module "batch" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "2.13.0"
@@ -64,6 +31,9 @@ module "batch" {
 # EIP for Batch server
 resource "aws_eip" "eip_batch" {
   vpc = true
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_eip_association" "eip_assoc" {

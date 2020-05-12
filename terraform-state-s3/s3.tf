@@ -1,12 +1,4 @@
-/*
-resource "random_string" "random" {
-  length  = 8
-  special = false
-  upper   = false
-}
-*/
 resource "aws_s3_bucket" "backendbucket" {
-  #bucket = "devops-terraform-state-${random_string.random.result}"
   bucket = var.bucket_name
   acl    = "private"
   
@@ -32,29 +24,16 @@ resource "aws_s3_bucket" "backendbucket" {
       storage_class = "STANDARD_IA"
     }
 
-    # noncurrent_version_transition {
-    #   days          = 60
-    #   storage_class = "GLACIER"
-    # }
-
-    # noncurrent_version_expiration {
-    #   days = 90
-    # }
-
     transition {
       days          = 30
-      storage_class = "STANDARD_IA" # or "ONEZONE_IA"
+      storage_class = "STANDARD_IA"
     }
-
-    # transition {
-    #   days          = 60
-    #   storage_class = "GLACIER"
-    # }
-
-    # expiration {
-    #   days = 90
-    # }
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
+
   tags = var.tags
 }
 
