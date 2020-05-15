@@ -30,6 +30,7 @@ def slaveNode = "$env.JOB_URL".contains('job/cn_') ? 'cngradle5' : 'linux'
 
 pipeline {
     /* insert Declarative Pipeline here */
+	agent any
 	options { 
         timestamps()
         buildDiscarder(logRotator(numToKeepStr:'20'))
