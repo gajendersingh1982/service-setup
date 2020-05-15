@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "devops-terraform-state-gb"
+    bucket         = "tf-galaxybadge-tfstate"
     key            = "dev/services/terraform.tfstate"
     region         = "us-east-1"
     
@@ -12,7 +12,7 @@ terraform {
 data "terraform_remote_state" "infra" {
   backend = "s3"
   config = {
-    bucket = "devops-terraform-state-gb"
+    bucket = "tf-galaxybadge-tfstate"
     key    = "dev/network/terraform.tfstate"
     region = "us-east-1"
   }

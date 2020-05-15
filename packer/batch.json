@@ -10,7 +10,7 @@
       "temporary_security_group_source_cidrs": [
         "122.177.159.124/32"
       ],
-      "profile": "default",
+      "profile": "badgedev",
       "name": "AWS AMI Builder - Batch",
       "type": "amazon-ebs",
       "region": "{{user `aws_region`}}",
@@ -60,7 +60,7 @@
     {
       "type": "shell",
       "script": "../scripts/batch.sh",
-      "max_retries": 3
+      "max_retries": 1
     }
   ]
 }

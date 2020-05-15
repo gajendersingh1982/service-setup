@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "devops-terraform-state-gb"
+    bucket         = "tf-galaxybadge-tfstate"
     key            = "dev/network/terraform.tfstate"
     region         = "us-east-1"
     
