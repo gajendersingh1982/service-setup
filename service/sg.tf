@@ -10,7 +10,7 @@ module "admin_sg" {
   #Essential
   egress_rules             = ["all-all"]
 
-  ingress_cidr_blocks      = [var.myip]
+  ingress_cidr_blocks      = [var.restrictedIP]
   ingress_rules            = ["https-443-tcp", "http-8080-tcp", "ssh-tcp"]
   /*
   computed_ingress_with_source_security_group_id = [
@@ -36,7 +36,7 @@ module "openapi_sg" {
   #Essential
   egress_rules             = ["all-all"]
 
-  ingress_cidr_blocks      = [var.myip]
+  ingress_cidr_blocks      = [var.restrictedIP]
   ingress_rules            = ["http-8080-tcp", "ssh-tcp"]
   # ingress_with_self        = ["all-all"]
 
@@ -75,7 +75,7 @@ module "loadbalancer_admin_sg" {
   #vpc_id      = module.vpc.vpc_id
   vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
 
-  ingress_cidr_blocks = [var.myip]
+  ingress_cidr_blocks = [var.restrictedIP]
   ingress_rules       = ["https-443-tcp", "http-80-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 
@@ -91,7 +91,7 @@ module "db_sg" {
   #vpc_id      = module.vpc.vpc_id
   vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
 
-  ingress_cidr_blocks = [var.myip, var.vpc_cidr]
+  ingress_cidr_blocks = [var.restrictedIP, var.vpc_cidr]
   ingress_rules       = ["mysql-tcp"]
   egress_rules        = ["all-all"]
 

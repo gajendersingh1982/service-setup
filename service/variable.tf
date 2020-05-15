@@ -1,6 +1,6 @@
-variable "myip" {
-  description = "my IP"
-  default = "122.177.159.124/32"
+variable "restrictedIP" {
+  description = "Restricted IP"
+  default = ["122.177.159.124/32", "162.246.216.28/32"]
 }
 
 variable "publicIP" {

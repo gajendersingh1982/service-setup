@@ -8,7 +8,7 @@ module "batch_sg" {
   #Essential
   egress_rules             = ["all-all"]
 
-  ingress_cidr_blocks      = [var.myip]
+  ingress_cidr_blocks      = var.restrictedIP 
   ingress_rules            = ["https-443-tcp", "http-8080-tcp", "ssh-tcp"]
   
   # computed_ingress_with_source_security_group_id = [
@@ -18,7 +18,6 @@ module "batch_sg" {
   #   }
   # ]
   # number_of_computed_ingress_with_source_security_group_id = 1
-
 
   tags                     = var.tags
 }

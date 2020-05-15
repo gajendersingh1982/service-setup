@@ -22,10 +22,7 @@ module "batch" {
   # set instance profile to give EC2 read only permissions
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_batch.name
 
-  # set user data for configuring server  
-  # user_data               = data.template_cloudinit_config.batch_config.rendered
-
-  tags                    = var.tags
+   tags                    = var.tags
 }
 
 # EIP for Batch server

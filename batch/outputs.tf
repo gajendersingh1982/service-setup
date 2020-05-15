@@ -1,6 +1,4 @@
-output "s3_bucket_arn" {
-  value       = aws_s3_bucket.releasebucket.arn
-  description = "The ARN of the S3 bucket"
+output "batch_public_ip" {
+  value       = aws_eip.eip_batch.public_ip
+  description = "Public IP of Batch Server"
 }
-
-
