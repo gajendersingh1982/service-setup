@@ -46,10 +46,10 @@ pipeline {
         stage('Checkout') {
             steps {
                 git url: repoUrl, branch: params.BRANCH
-				sh 'echo $PWD'
-		    		sh 'echo env.GIT_URL'
-		    		sh 'echo $env.JOB_URL'
-				sh 'cd ./service'
+				//sh 'echo $PWD'
+		    		//sh 'echo env.GIT_URL'
+		    		//sh 'echo $env.JOB_URL'
+				//sh 'cd ./service'
             }
         }
 		
