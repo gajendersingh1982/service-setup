@@ -62,7 +62,7 @@ pipeline {
 		stage('plan') {
             steps {
                 /*sh 'terraform plan -var="bucket_name=gajender" -var="table_name=gajender_db_1"'*/
-		    sh 'echo 'Plan Stage''
+		    sh 'echo Plan'
             }
         }
 		
