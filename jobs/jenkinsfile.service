@@ -33,7 +33,7 @@ pipeline {
 	agent any
 	options { 
         timestamps()
-        buildDiscarder(logRotator(numToKeepStr:'20'))
+        buildDiscarder(logRotator(numToKeepStr:'5'))
     }
 	
 	stages {
