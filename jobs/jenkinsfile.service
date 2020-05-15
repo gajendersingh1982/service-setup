@@ -25,7 +25,7 @@
 //              | 10| XXXXX       | Optional | 		                                   |
 
 
-def repoUrl = env.GIT_URL + params.ORG_NAME +'/'+ params.REPO_NAME
+def repoUrl = env.GIT_URL /*+ params.ORG_NAME +'/'+ params.REPO_NAME*/
 def slaveNode = "$env.JOB_URL".contains('job/cn_') ? 'cngradle5' : 'linux'
 
 pipeline {
@@ -46,6 +46,8 @@ pipeline {
             steps {
                 git url: repoUrl, branch: params.BRANCH, credentialsId: env.GIT_CREDENTIALS_ID
 				sh 'echo $PWD'
+		    		sh 'echo env.GIT_URL'
+		    		sh 'echo $env.JOB_URL'
 				sh 'cd ./service'
             }
         }
@@ -58,7 +60,8 @@ pipeline {
 		
 		stage('plan') {
             steps {
-                sh 'terraform plan -var="bucket_name=gajender" -var="table_name=gajender_db_1"'
+                /*sh 'terraform plan -var="bucket_name=gajender" -var="table_name=gajender_db_1"'*/
+		    sh 'echo Plan Stage
             }
         }
 		
