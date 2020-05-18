@@ -36,7 +36,7 @@ pipeline {
         stage('Terarfrom Init') {
             steps {
                 sh '''
-                cd ./network
+                cd ./batch
                 echo $PWD
                 terraform init -backend-config="key=badge/dev/us-east-1/batch/terraform.tfstate" -reconfigure
                 '''
@@ -52,8 +52,7 @@ pipeline {
             }
             steps {
                 sh '''
-                echo $PWD
-                cd ./network
+                cd ./batch
                 echo $PWD
                 terraform plan -var-file=./env/badgedev.tfvars
                 '''
@@ -78,7 +77,7 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./network
+                cd ./batch
                 terraform apply -auto-approve -var-file=./env/badgedev.tfvars
                 '''
             }
@@ -102,7 +101,7 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./network
+                cd ./batch
                 terraform destroy -auto-approve -var-file=./env/badgedev.tfvars
                 '''
             }
