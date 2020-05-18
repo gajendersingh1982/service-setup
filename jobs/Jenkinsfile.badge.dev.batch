@@ -55,7 +55,7 @@ pipeline {
                 sh '''
                 cd ./batch
                 echo $PWD
-                terraform plan -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
+                terraform plan -var-file=./env/badgedev.tfvars -var="batch_ami_name=${AMI_NAME}"
                 '''
             }
         }
@@ -79,7 +79,7 @@ pipeline {
                 sh '''
                 echo $PWD
                 cd ./batch
-                terraform apply -auto-approve -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
+                terraform apply -auto-approve -var-file=./env/badgedev.tfvars -var="batch_ami_name=${AMI_NAME}"
                 '''
             }
         }
@@ -103,7 +103,7 @@ pipeline {
                 sh '''
                 echo $PWD
                 cd ./batch
-                terraform destroy -auto-approve -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
+                terraform destroy -auto-approve -var-file=./env/badgedev.tfvars -var="batch_ami_name=${AMI_NAME}"
                 '''
             }
         }
