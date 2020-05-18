@@ -12,7 +12,7 @@ tags = {
 # Instance Details
 instance_type_batch = "t3.medium"
 key_name = "galaxybadge_dev"
-batch_ami_name = "tf-virginia-dev-gb-batch*"
+batch_ami_name = "tf-virginia-dev-gb-batch-1589707255"
 
 # Firewall variables
 restrictedIP = ["162.246.216.28/32", "223.235.161.164/32", "103.81.106.248/30"]
