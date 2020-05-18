@@ -1,0 +1,111 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent any
+        options { 
+        timestamps()
+        disableConcurrentBuilds()
+        buildDiscarder logRotator(artifactNumToKeepStr: '', numToKeepStr: '10')
+    }
+    parameters {
+        string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
+        string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
+        booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
+    }
+    environment {
+        GIT_URL = "https://github.com/gajendersingh1982"
+        AWS_CREDS = credentials('AWS_badgedev')
+        AWS_DEFAULT_REGION="us-east-1"
+        AWS_ACCESS_KEY_ID="${AWS_CREDS_USR}"
+        AWS_SECRET_ACCESS_KEY="${AWS_CREDS_PSW}"
+    }
+    stages {
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        
+        stage('Checkout') {
+            steps {
+                git url: env.GIT_URL + "/" + params.REPO + "/", branch: params.BRANCH, credentialsId: env.GIT_CREDENTIALS_ID
+                sh 'echo $PWD'
+            }
+        } 
+        
+        stage('Terarfrom Init') {
+            steps {
+                sh '''
+                cd ./network
+                echo $PWD
+                terraform init -backend-config="key=bixby/dev/us-east-1/network/terraform.tfstate" -reconfigure
+                '''
+            }
+        }
+        
+        stage('Terarfrom Plan') {
+            when {
+                expression {
+                    params.DESTROY == false
+                }
+                beforeInput true
+            }
+            steps {
+                sh '''
+                echo $PWD
+                cd ./network
+                echo $PWD
+                terraform plan -var-file=./env/bixbydev.tfvars
+                '''
+            }
+        }
+        
+        stage('Terarfrom Apply') {
+            when {
+                expression {
+                    params.DESTROY == false
+                }
+                beforeInput true
+            }
+            input {
+                message "Review plan and continue to change Infra?"
+                ok "Yes, we should."
+                submitter "gajender,singh"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Gajender Singh', description: 'Continue to apply the chnages')
+                }
+            }
+            steps {
+                sh '''
+                echo $PWD
+                cd ./network
+                terraform apply -auto-approve -var-file=./env/bixbydev.tfvars
+                '''
+            }
+        }
+
+        stage('Terarfrom Destroy') {
+            when {
+                expression {
+                    params.DESTROY == true
+                }
+                beforeInput true
+            }
+            input {
+                message "You are about to destroy Infra?"
+                ok "Yes, Pocceed."
+                submitter "gajender,singh"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Gajender Singh', description: 'Continue to apply the chnages')
+                }
+            }
+            steps {
+                sh '''
+                echo $PWD
+                cd ./network
+                terraform destroy -auto-approve -var-file=./env/bixbydev.tfvars
+                '''
+            }
+        }
+    }
+}

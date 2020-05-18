@@ -1,0 +1,52 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent any
+    options { 
+        timestamps()
+        disableConcurrentBuilds()
+        buildDiscarder logRotator(artifactNumToKeepStr: '', numToKeepStr: '10')
+    }
+    parameters {
+        string defaultValue: 'Service', description: '', name: 'REPO', trim: true
+        string defaultValue: 'master', description: '', name: 'BRANCH', trim: true
+    }
+    environment {
+        GIT_URL = "https://github.com/gajendersingh1982"
+        AWS_CREDS = credentials('AWS_badgedev')
+        AWS_DEFAULT_REGION="us-east-1"
+        AWS_ACCESS_KEY_ID="${AWS_CREDS_USR}"
+        AWS_SECRET_ACCESS_KEY="${AWS_CREDS_PSW}"
+    }
+    stages {
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        
+        stage('Checkout') {
+            steps {
+                git url: env.GIT_URL + "/" + params.REPO + "/", branch: params.BRANCH, credentialsId: env.GIT_CREDENTIALS_ID
+                sh 'echo $PWD'
+            }
+        } 
+        
+        stage('Packer Build') {
+            input {
+                message 'Do you want to continue with build?'
+                id 'APPROVER'
+                ok 'Yes Proceed !'
+                submitter 'Gajender'
+                submitterParameter 'Approved By'
+                parameters {
+                    string defaultValue: '', description: '', name: 'Approved By', trim: true
+                }
+            }
+            steps {
+                // sh 'packer build -var aws_access_key=${AWS_CREDS_USR} -var aws_secret_key=${AWS_CREDS_PSW} ./packer/was.json'
+                sh 'packer build ./packer/batch.json'
+            }
+        }
+    }
+}
