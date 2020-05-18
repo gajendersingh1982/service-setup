@@ -11,6 +11,7 @@ pipeline {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
         string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
+        string defaultValue: 'tf-virginia-dev-gb-batch-1589707255', description: 'Name of AMI to deploy', name: 'AMI_NAME', trim: true
     }
     environment {
         GIT_URL = "https://github.com/gajendersingh1982"
@@ -54,7 +55,7 @@ pipeline {
                 sh '''
                 cd ./batch
                 echo $PWD
-                terraform plan -var-file=./env/badgedev.tfvars
+                terraform plan -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
                 '''
             }
         }
@@ -78,7 +79,7 @@ pipeline {
                 sh '''
                 echo $PWD
                 cd ./batch
-                terraform apply -auto-approve -var-file=./env/badgedev.tfvars
+                terraform apply -auto-approve -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
                 '''
             }
         }
@@ -102,7 +103,7 @@ pipeline {
                 sh '''
                 echo $PWD
                 cd ./batch
-                terraform destroy -auto-approve -var-file=./env/badgedev.tfvars
+                terraform destroy -auto-approve -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
                 '''
             }
         }
