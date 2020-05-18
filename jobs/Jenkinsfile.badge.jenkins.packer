@@ -10,6 +10,7 @@ pipeline {
     parameters {
         string defaultValue: 'Service', description: '', name: 'REPO', trim: true
         string defaultValue: 'master', description: '', name: 'BRANCH', trim: true
+        string defaultValue: 'tf-virginia-dev-gb-jenkin', description: '', name: 'AMI_NAME', trim: true
     }
     environment {
         GIT_URL = "https://github.com/gajendersingh1982"
@@ -45,7 +46,7 @@ pipeline {
             }
             steps {
                 // sh 'packer build -var aws_access_key=${AWS_CREDS_USR} -var aws_secret_key=${AWS_CREDS_PSW} ./packer/was.json'
-                sh 'packer build ./packer/batch.json'
+                sh 'packer build -var ami_name=${AMI_NAME} ./packer/batch.json'
             }
         }
     }
