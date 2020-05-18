@@ -21,7 +21,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY="${AWS_CREDS_PSW}"
     }
     stages {
-        stage('Cleanup Workspace') {
+        stage('Cleanup') {
             steps {
                 cleanWs()
             }
@@ -34,7 +34,7 @@ pipeline {
             }
         } 
         
-        stage('Terarfrom Init') {
+        stage('Init') {
             steps {
                 sh '''
                 cd ./service
@@ -44,7 +44,7 @@ pipeline {
             }
         }
         
-        stage('Terarfrom Plan') {
+        stage('Plan') {
             when {
                 expression {
                     params.DESTROY == false
@@ -61,7 +61,7 @@ pipeline {
             }
         }
         
-        stage('Terarfrom Apply') {
+        stage('Apply') {
             when {
                 expression {
                     params.DESTROY == false
@@ -84,7 +84,7 @@ pipeline {
                 '''
             }
         }
-        stage('Terarfrom Destroy') {
+        stage('Destroy') {
             when {
                 expression {
                     params.DESTROY == true
