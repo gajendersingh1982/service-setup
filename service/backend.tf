@@ -1,6 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "tf-galaxybadge-tfstate"
+    key            = var.service_backend_state
     region         = "us-east-1"    
     dynamodb_table = "terraform-up-and-running-locks"
     encrypt        = true
