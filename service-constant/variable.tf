@@ -33,6 +33,14 @@ variable "network_backend_state"{
   description = "Netwrok backend path"
 }
 
+variable "service_constant_backend_state"{
+  description = "service-constant backend path"
+}
+
+variable "service_backend_state"{
+  description = "service backend path"
+}
+
 # EC2 Variables
 variable "instance_type_admin"{
   description = "Instance Type"
