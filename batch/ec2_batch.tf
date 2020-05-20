@@ -45,7 +45,14 @@ module "batch" {
   # set instance profile to give EC2 read only permissions
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile_batch.name
 
-   tags                    = var.tags
+  root_block_device = [
+    {
+      volume_type = "gp2"
+      volume_size = 100
+    }
+  ]
+  
+  tags                    = var.tags
 }
 
 # EIP for Batch server

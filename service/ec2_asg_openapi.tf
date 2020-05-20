@@ -28,6 +28,13 @@ resource "aws_launch_configuration" "api_conf" {
   # set user data for configuring server  
   user_data               = data.template_cloudinit_config.openapi_config.rendered
 
+  root_block_device = [
+    {
+      volume_type = "gp2"
+      volume_size = 30
+    }
+  ]
+  
   lifecycle {
     create_before_destroy = true
   }

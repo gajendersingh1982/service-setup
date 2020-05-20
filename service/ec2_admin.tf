@@ -70,6 +70,12 @@ module "admin" {
   # set user data for configuring server  
   user_data               = data.template_cloudinit_config.admin_config.rendered
 
+  root_block_device = [
+    {
+      volume_type = "gp2"
+      volume_size = 30
+    }
+  ]
   tags                    = var.tags
 }
 
