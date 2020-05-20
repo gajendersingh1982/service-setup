@@ -16,3 +16,12 @@ data "terraform_remote_state" "infra" {
     region = "us-east-1"
   }
 }
+
+data "terraform_remote_state" "serviceConstant" {
+  backend = "s3"
+  config = {
+    bucket = "tf-galaxybadge-tfstate"
+    key    = var.service_constant_backend_state
+    region = "us-east-1"
+  }
+}
