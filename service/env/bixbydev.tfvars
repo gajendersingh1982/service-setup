@@ -16,10 +16,7 @@ key_name = "bixby_dev"
 # was_ami_name = "tf-virginia-dev-bixby-was*"
 
 # Firewall variables
-restrictedIP = ["162.246.216.28/32", "223.235.161.164/32", "103.81.106.248/30"]
-#                   my IP,                  SEA IP,             SRID IP
-  
-publicIP = "122.177.159.124/32"
-
+restrictedIP = ["223.235.161.164/32", "103.81.106.248/30"]
+#                      SEA IP,             SRID IP
 
 network_backend_state = "bixby/dev/us-east-1/network/terraform.tfstate"

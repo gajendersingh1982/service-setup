@@ -3,11 +3,6 @@ variable "myip" {
   default = "122.177.159.124/32"
 }
 
-variable "publicIP" {
-  description = "my IP"
-  default = "122.177.159.124/32"
-}
-
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC, e.g: 10.10.0.0/16"
 }

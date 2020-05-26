@@ -16,10 +16,8 @@ key_name = "galaxybadge_dev"
 # was_ami_name = "tf-virginia-dev-gb-was*"
 
 # Firewall variables
-restrictedIP = ["122.177.154.93/32", "223.235.161.164/32", "103.81.106.248/30"]
-#                   my IP,                  SEA IP,             SRID IP
-  
-publicIP = "122.177.159.124/32"
+restrictedIP = ["223.235.161.164/32", "103.81.106.248/30"]
+#                      SEA IP,             SRID IP
 
 # Backends
 network_backend_state = "badge/dev/us-east-1/network/terraform.tfstate"

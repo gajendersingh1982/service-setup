@@ -24,8 +24,8 @@ max_allocated_storage = "100"
 domain_name ="*.bixby.store"
 
 # Firewall variables
-restrictedIP = ["162.246.216.28/32", "223.235.161.164/32", "103.81.106.248/30"]
-#                   my IP,                  SEA IP,             SRID IP
+restrictedIP = ["223.235.161.164/32", "103.81.106.248/30"]
+#                      SEA IP,             SRID IP
   
-publicIP = "122.177.159.124/32"
+publicIP = "0.0.0.0/0"
 network_backend_state = "bixby/dev/us-east-1/network/terraform.tfstate"

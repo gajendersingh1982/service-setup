@@ -2,10 +2,6 @@ variable "restrictedIP" {
   description = "Restricted IP"
 }
 
-variable "publicIP" {
-  description = "my IP"
-}
-
 variable "prefix" {
 }
 
