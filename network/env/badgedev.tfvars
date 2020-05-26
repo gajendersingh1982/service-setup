@@ -14,6 +14,3 @@ tags = {
     "Service" = "gb"
     "Stage"     = "dev"
 }
-
-# Backend 
-network_backend_state = "badge/dev/us-east-1/network/terraform.tfstate"
