@@ -81,7 +81,7 @@ module "admin" {
 
 
  resource "aws_lb_target_group_attachment" "admin-tg-attachment-01" {
-  target_group_arn = module.lb_admin.target_group_arns[0]
+  target_group_arn = data.terraform_remote_state.serviceConstant.outputs.admin_target_group_arns[0]
   target_id        = module.admin.id
   port             = 80
 }
