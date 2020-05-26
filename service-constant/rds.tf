@@ -4,23 +4,28 @@ module "db" {
 
   identifier = format("%s-%s-%s-%s-db", var.prefix, var.region_name, var.stage, var.service)
 
+  # Variables
+  snapshot_identifier = var.db_snapshot
+  multi_az            = var.multi_az
+  publicly_accessible = var.publicly_accessible
+
   engine            = "mysql"
   engine_version    = "5.7.19"
   instance_class    = var.rds_instance_type
-  allocated_storage = 5
-  max_allocated_storage = 10
+  allocated_storage = var.allocated_storage
+  max_allocated_storage = var.max_allocated_storage
 
-  name     = "demodb"
-  username = "user"
-  password = "YourPwdShouldBeLongAndSecure!"
-  #password = var.password
-  port     = "3306"
+  name              = var.db_name
+  username          = var.db_username
+  password          = var.db_password
+  port              = "3306"
 
-  iam_database_authentication_enabled = true
+  iam_database_authentication_enabled = false
 
   vpc_security_group_ids = [module.db_sg.this_security_group_id]
-  publicly_accessible = false
 
+  # Backup Parameters
+  backup_retention_period = var.backup_retention_period
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
 
@@ -31,7 +36,6 @@ module "db" {
   # create_monitoring_role = true
 
   # DB subnet group
-  #subnet_ids = module.vpc.private_subnets
   subnet_ids = data.terraform_remote_state.infra.outputs.private_subnets
 
   # DB parameter group
@@ -42,6 +46,7 @@ module "db" {
 
   # Snapshot name upon DB deletion
   final_snapshot_identifier = format("%s-%s-%s-%s-db-backup", var.prefix, var.region_name, var.stage, var.service)
+  copy_tags_to_snapshot = "true"
 
   # Database Deletion Protection
   deletion_protection = true

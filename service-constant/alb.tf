@@ -1,14 +1,17 @@
+
+data "aws_acm_certificate" "domain" {
+  domain    = var.domain_name
+}
+
 module "lb_openapi" {
   source  = "terraform-aws-modules/alb/aws"
 
-  name               = format("%s-%s-%s-%s-alb-api", var.prefix, var.region_name, var.stage, "gb")
-  internal           = false
-  load_balancer_type = "application"
-  #vpc_id             = module.vpc.vpc_id
-  vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
-  security_groups    = [module.loadbalancer_openapi_sg.this_security_group_id]
-  #subnets            = module.vpc.public_subnets
-  subnets            = data.terraform_remote_state.infra.outputs.public_subnets
+  name                = format("%s-%s-%s-%s-alb-api", var.prefix, var.region_name, var.stage, "gb")
+  internal            = false
+  load_balancer_type  = "application"
+  vpc_id              = data.terraform_remote_state.infra.outputs.vpc_id
+  security_groups     = [module.loadbalancer_openapi_sg.this_security_group_id]
+  subnets             = data.terraform_remote_state.infra.outputs.public_subnets
 
   enable_deletion_protection = true
   
@@ -40,7 +43,7 @@ module "lb_openapi" {
         matcher             = "200-399"
       }
       tags = {
-        InstanceTargetGroupTag = "jenkins"
+        InstanceTargetGroupTag = "openapi"
       }
     }
    ]
@@ -75,13 +78,11 @@ resource "aws_lb_listener_rule" "admin" {
       values = ["/admin/*"]
     }
   }
-
  }
 
 
- ####################################
-  
- module "lb_admin" {
+ ####################### Admin LoadBalancer ########################
+module "lb_admin" {
   source  = "terraform-aws-modules/alb/aws"
 
   name               = format("%s-%s-%s-%s-alb-adm", var.prefix, var.region_name, var.stage, "gb")
@@ -123,7 +124,7 @@ resource "aws_lb_listener_rule" "admin" {
         matcher             = "200-399"
       }
       tags = {
-        InstanceTargetGroupTag = "jenkins"
+        InstanceTargetGroupTag = "admin"
       }
     }
   ]
@@ -138,9 +139,3 @@ resource "aws_lb_listener_rule" "admin" {
     Environment = var.stage
   }
 }
-
-
-
-
-
-

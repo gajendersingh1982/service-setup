@@ -37,6 +37,10 @@ variable "instance_type_batch"{
   description = "Instance Type"
 }
 
+variable "instance_type_mail_train"{
+  description = "Instance Type"
+}
+
 variable "key_name"{
   description = "Instance Type"
 }

@@ -43,15 +43,11 @@ variable "service_backend_state"{
 
 # EC2 Variables
 variable "instance_type_admin"{
-  description = "Instance Type"
+  description = "Instance Type for Admin EC2"
 }
 
 variable "instance_type_openapi"{
-  description = "Instance Type"
-}
-
-variable "rds_instance_type"{
-  description = "DB Instance Type"
+  description = "Instance Type for OpenAPI ASG"
 }
 
 variable "was_ami_name"{
@@ -62,12 +58,7 @@ variable "key_name"{
   description = "Instance Type"
 }
 
-variable "domain_name"{
+variable "env_var"{
   description = "Instance Type"
-}
-
-# Other variables
-variable "db_password"{
-  description = "Instance Type"
-  default = "password"
+  default = "test"
 }

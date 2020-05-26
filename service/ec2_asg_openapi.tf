@@ -1,7 +1,7 @@
 data "template_file" "openapi_env" {
   template = file("./enviornment.sh")
   vars = {
-    db_password = var.db_password
+    db_password = var.env_var
   }
 }
 
@@ -28,12 +28,12 @@ resource "aws_launch_configuration" "api_conf" {
   # set user data for configuring server  
   user_data               = data.template_cloudinit_config.openapi_config.rendered
 
-  root_block_device = [
-    {
-      volume_type = "gp2"
-      volume_size = 30
-    }
-  ]
+  # root_block_device = [
+  #   {
+  #     volume_type = "gp2"
+  #     volume_size = 30
+  #   }
+  # ]
   
   lifecycle {
     create_before_destroy = true
@@ -49,7 +49,7 @@ resource "aws_autoscaling_group" "api_asg" {
   vpc_zone_identifier     = data.terraform_remote_state.infra.outputs.private_subnets  #module.vpc.private_subnets
 
   #target_group_arns       = module.lb_openapi.target_group_arns
-  target_group_arns       = data.terraform_remote_state.serviceConstant.outputs.openapi_target_group_arns
+  target_group_arns       = data.terraform_remote_state.service-const.outputs.openapi_target_group_arns
 
   lifecycle {
     create_before_destroy = true
@@ -89,7 +89,7 @@ resource "aws_cloudwatch_metric_alarm" "alarm-scale-out" {
   namespace           = "AWS/EC2"
   period              = "120"
   statistic           = "Average"
-  threshold           = "80"
+  threshold           = "70"
 
   dimensions = {
     AutoScalingGroupName = "${aws_autoscaling_group.api_asg.name}"
@@ -116,7 +116,7 @@ resource "aws_cloudwatch_metric_alarm" "alarm-scale-in" {
   namespace           = "AWS/EC2"
   period              = "120"
   statistic           = "Average"
-  threshold           = "20"
+  threshold           = "40"
 
   dimensions = {
     AutoScalingGroupName = "${aws_autoscaling_group.api_asg.name}"

@@ -24,15 +24,10 @@ data "aws_ami" "was_ami" {
   }
 }
 
-data "aws_acm_certificate" "domain" {
-  domain    = var.domain_name
-}
-
-
 data "template_file" "admin_env" {
   template = file("./enviornment.sh")
   vars = {
-    db_password = var.db_password
+    db_password = var.env_var
   }
 }
 
@@ -80,8 +75,8 @@ module "admin" {
 }
 
 
- resource "aws_lb_target_group_attachment" "admin-tg-attachment-01" {
-  target_group_arn = data.terraform_remote_state.serviceConstant.outputs.admin_target_group_arns[0]
-  target_id        = module.admin.id
-  port             = 80
+resource "aws_lb_target_group_attachment" "admin-tg-attachment-01" {
+  target_group_arn = data.terraform_remote_state.service-const.outputs.admin_target_group_arns[0]
+  target_id        = module.admin.id[0]
+  port             = 8080
 }

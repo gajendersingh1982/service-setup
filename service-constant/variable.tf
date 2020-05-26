@@ -33,41 +33,48 @@ variable "network_backend_state"{
   description = "Netwrok backend path"
 }
 
-variable "service_constant_backend_state"{
-  description = "service-constant backend path"
-}
-
-variable "service_backend_state"{
-  description = "service backend path"
-}
-
-# EC2 Variables
-variable "instance_type_admin"{
-  description = "Instance Type"
-}
-
-variable "instance_type_openapi"{
-  description = "Instance Type"
-}
-
+# RDS Variables
 variable "rds_instance_type"{
   description = "DB Instance Type"
 }
 
-variable "was_ami_name"{
-  description = "DB Instance Type"
-}
-
-variable "key_name"{
-  description = "Instance Type"
-}
-
 variable "domain_name"{
-  description = "Instance Type"
+  description = "SSL Domain to be used for ALB(443-ACM)"
 }
 
 # Other variables
 variable "db_password"{
-  description = "Instance Type"
-  default = "password"
+  description = "Enter Password to Set for Database"
+}
+
+variable "db_snapshot"{
+  description = "Enter Password to Set for Database"
+}
+
+variable "backup_retention_period" {
+  description = "Number of days of backupto retain"
+  default = "7"
+}
+
+variable "multi_az" {
+  description = "Number of days of backupto retain"
+}
+
+variable "publicly_accessible" {
+  description = "Needs to be open to public"
+}
+
+variable "allocated_storage" {
+  description = "Min storage for DB"
+}
+
+variable "max_allocated_storage" {
+  description = "Enable autoscalling with max storage"
+}
+variable "db_name" {
+
+}
+
+variable "db_username" {
+
 }

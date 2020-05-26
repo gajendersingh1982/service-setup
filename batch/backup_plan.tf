@@ -9,7 +9,7 @@ resource "aws_backup_plan" "batch" {
     #completion_window  = 600
     lifecycle           {
       #cold_storage_after = 14
-      delete_after = 365
+      delete_after = 7
     }
   }
 }

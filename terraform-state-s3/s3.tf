@@ -36,5 +36,3 @@ resource "aws_s3_bucket" "backendbucket" {
 
   tags = var.tags
 }
-
-

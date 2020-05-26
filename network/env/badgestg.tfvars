@@ -14,3 +14,6 @@ tags = {
     "Service" = "gb"
     "Stage"     = "stg"
 }
+
+# Backend 
+network_backend_state = "badge/stg/us-east-1/network/terraform.tfstate"

@@ -43,3 +43,7 @@ variable "azs" {
 variable "tags" {
   description = "A mapping of tags to assign to the resource"
 }
+
+variable "network_backend_state"{
+  description = "Netwrok backend path"
+}
