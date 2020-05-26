@@ -27,22 +27,25 @@ variable "tags" {
   description = "A mapping of tags to assign to the resource"
 }
 
-
 # Instance Variables
 variable "instance_type_batch"{
-  description = "Instance Type"
+  description = "Batch Instance Class"
 }
 
 variable "instance_type_mail_train"{
-  description = "Instance Type"
+  description = "Mail Train Instance Class"
 }
 
 variable "key_name"{
-  description = "Instance Type"
+  description = "Key for login into Dev EC2"
 }
 
 variable "batch_ami_name"{
-  description = "Instance Type"
+  description = "Batch AMI Name"
+}
+
+variable "mail_train_ami_name"{
+  description = "Mail Train AMI Name"
 }
 
 variable "network_backend_state"{

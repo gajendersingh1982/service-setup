@@ -1,27 +1,40 @@
+# Get latest snapshot from other account DB
+data "aws_db_snapshot" "db_snapshot" {
+    most_recent = true
+    db_snapshot_identifier = var.db_snapshot
+    snapshot_type = "shared"
+}
+
 module "db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 2.0"
 
+  name              = var.db_name
+
   identifier = format("%s-%s-%s-%s-db", var.prefix, var.region_name, var.stage, var.service)
 
+  # Instance Class(t3 or r5)
+  instance_class    = var.rds_instance_type
+
   # Variables
-  snapshot_identifier = var.db_snapshot
+  snapshot_identifier = data.aws_db_snapshot.db_snapshot.id
   multi_az            = var.multi_az
   publicly_accessible = var.publicly_accessible
 
-  engine            = "mysql"
-  engine_version    = "5.7.19"
-  instance_class    = var.rds_instance_type
-  allocated_storage = var.allocated_storage
-  max_allocated_storage = var.max_allocated_storage
-
-  name              = var.db_name
+  # Connect Details
   username          = var.db_username
   password          = var.db_password
   port              = "3306"
 
-  iam_database_authentication_enabled = false
+  #############################################
+  # May not be needed for restore from snapshot
+  engine            = "mysql"
+  engine_version    = "5.7.19"
+  allocated_storage = var.allocated_storage
+  max_allocated_storage = var.max_allocated_storage
+  #############################################
 
+  iam_database_authentication_enabled = false
   vpc_security_group_ids = [module.db_sg.this_security_group_id]
 
   # Backup Parameters

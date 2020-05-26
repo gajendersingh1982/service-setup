@@ -14,6 +14,7 @@ instance_type_batch = "t3.medium"
 instance_type_mail_train = "t3.medium"
 key_name = "galaxybadge_dev"
 batch_ami_name = "tf-virginia-dev-gb-batch-1589707255"
+mail_train_ami_name = "mail_galaxy_store_*"
 
 # Firewall variables
 restrictedIP = ["223.235.161.164/32", "103.81.106.248/30"]

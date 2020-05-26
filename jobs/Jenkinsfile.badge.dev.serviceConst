@@ -10,8 +10,8 @@ pipeline {
     parameters {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
         string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
-        booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
         string defaultValue: '*.galaxy.badge', description: 'Name of DOMAIN to use for HTTPS', name: 'DOMAIN_NAME', trim: true
+        booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
     }
     environment {
         GIT_URL = "https://github.com/gajendersingh1982"

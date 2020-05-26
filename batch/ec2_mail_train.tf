@@ -1,22 +1,49 @@
-# Define an Amazon Linux AMI.
-data "aws_ami" "ubuntu_18_04_ami" {
+# # Define an Amazon Linux AMI.
+# data "aws_ami" "ubuntu_18_04_ami" {
+#   most_recent = true
+
+#   owners = [
+#     "137112412989",
+#     "591542846629",
+#     "801119661308",
+#     "102837901569",
+#     "013907871322",
+#     "206029621532",
+#     "286198878708",
+#     "443319210888",
+#     "099720109477"
+#     ]
+
+#   filter {
+#     name   = "name"
+#     values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+#   }
+
+#   filter {
+#     name   = "architecture"
+#     values = ["x86_64"]
+#   }
+  
+#   filter {
+#     name   = "root-device-type"
+#     values = ["ebs"]
+#   }
+
+#   filter {
+#     name   = "virtualization-type"
+#     values = ["hvm"]
+#   }
+# }
+
+# Mail Train AMI transfered from other account
+data "aws_ami" "mail_train_ami" {
   most_recent = true
 
-  owners = [
-    "137112412989",
-    "591542846629",
-    "801119661308",
-    "102837901569",
-    "013907871322",
-    "206029621532",
-    "286198878708",
-    "443319210888",
-    "099720109477"
-    ]
+  owners = [ "self" ]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+    values = [var.mail_train_ami_name]
   }
 
   filter {
@@ -43,7 +70,7 @@ module "mail_train" {
   name                    = format("%s-%s-%s-%s-mail-train", var.prefix, var.region_name, var.stage, var.service)
   instance_count          = "1"
 
-  ami                     = data.aws_ami.ubuntu_18_04_ami.id
+  ami                     = data.aws_ami.mail_train_ami.id
   instance_type           = var.instance_type_mail_train
   key_name                = var.key_name
   monitoring              = false

@@ -10,8 +10,8 @@ pipeline {
     parameters {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
         string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
-        booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
         string defaultValue: 'tf-virginia-dev-gb-was*', description: 'Name of AMI to deploy', name: 'AMI_NAME', trim: true
+        booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
     }
     environment {
         GIT_URL = "https://github.com/gajendersingh1982"
