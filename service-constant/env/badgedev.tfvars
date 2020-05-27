@@ -21,7 +21,7 @@ allocated_storage = "50"
 max_allocated_storage = "100"
 
 # SSL certificate
-domain_name ="*.samsungops.com"
+# domain_name ="*.samsungops.com"
 # domain_name ="*.galaxy.store"
 
 # Firewall variables
