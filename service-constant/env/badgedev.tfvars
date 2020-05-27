@@ -11,7 +11,7 @@ tags = {
 
 # Instance Details
 rds_instance_type       = "db.t3.small"
-db_snapshot             = "*d-use1-gb*"
+db_snapshot             = "arn:aws:rds:us-east-1:849611986161:snapshot:d-use1-gb-account-migration"
 db_name                 = "demodb"
 db_username             = "user"
 
