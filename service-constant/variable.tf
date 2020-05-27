@@ -35,7 +35,7 @@ variable "network_backend_state"{
 
 # RDS Variables
 variable "rds_instance_type"{
-  description = "DB Instance Type"
+  description = "DB Instance Class"
 }
 
 variable "domain_name"{

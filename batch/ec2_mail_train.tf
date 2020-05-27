@@ -39,7 +39,7 @@
 data "aws_ami" "mail_train_ami" {
   most_recent = true
 
-  owners = [ "self" ]
+  owners = [ "849611986161" ]
 
   filter {
     name   = "name"
@@ -81,7 +81,7 @@ module "mail_train" {
   root_block_device = [
     {
       volume_type = "gp2"
-      volume_size = 30
+      volume_size = 75
     }
   ]
   
