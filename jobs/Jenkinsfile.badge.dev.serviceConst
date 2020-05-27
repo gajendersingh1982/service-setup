@@ -1,16 +1,15 @@
-#!/usr/bin/env groovy
-
 pipeline {
     agent any
         options { 
         timestamps()
         disableConcurrentBuilds()
-        buildDiscarder logRotator(artifactNumToKeepStr: '', numToKeepStr: '10')
+        buildDiscarder logRotator(artifactNumToKeepStr: '', numToKeepStr: '2')
     }
     parameters {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
-        string defaultValue: 'master', description: 'Branch For Checkout', name: 'BRANCH', trim: true
-        string defaultValue: '*.galaxy.badge', description: 'Name of DOMAIN to use for HTTPS', name: 'DOMAIN_NAME', trim: true
+        string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
+        string defaultValue: 'arn:aws:rds:us-east-1:849611986161:snapshot:d-use1-gb-account-migration', description: 'Name of DB Snapshot', name: 'DB_SNAPSHOT', trim: true
+        string defaultValue: 'www.galaxy.badge', description: 'Name of DOMAIN to use for HTTPS', name: 'DOMAIN_NAME', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
     }
     environment {
@@ -19,6 +18,7 @@ pipeline {
         AWS_DEFAULT_REGION="us-east-1"
         AWS_ACCESS_KEY_ID="${AWS_CREDS_USR}"
         AWS_SECRET_ACCESS_KEY="${AWS_CREDS_PSW}"
+		DB_PASSWORD = credentials('DEV_DB_PASS')
     }
     stages {
         stage('Cleanup') {
@@ -56,7 +56,7 @@ pipeline {
                 echo $PWD
                 cd ./service-constant
                 echo $PWD
-                terraform plan -var-file=./env/badgedev.tfvars -var="domain_name=${DOMAIN_NAME}"
+                terraform plan -var="domain_name=${DOMAIN_NAME}" -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
                 '''
             }
         }
@@ -80,7 +80,7 @@ pipeline {
                 sh '''
                 echo $PWD
                 cd ./service-constant
-                terraform apply -auto-approve -var-file=./env/badgedev.tfvars -var="domain_name=${DOMAIN_NAME}"
+                terraform apply -auto-approve -var="domain_name=${DOMAIN_NAME}" -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
                 '''
             }
         }
@@ -104,7 +104,7 @@ pipeline {
                 sh '''
                 echo $PWD
                 cd ./service-constant
-                terraform destroy -auto-approve -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
+                terraform destroy -auto-approve -var="domain_name=${DOMAIN_NAME}" -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
                 '''
             }
         }
