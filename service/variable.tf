@@ -51,10 +51,10 @@ variable "was_ami_name"{
 }
 
 variable "key_name"{
-  description = "Instance Type"
+  description = "AWS Key Namee"
 }
 
 variable "env_var"{
-  description = "Instance Type"
+  description = "Test variable of EC2"
   default = "test"
 }
