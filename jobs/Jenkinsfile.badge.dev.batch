@@ -9,7 +9,7 @@ pipeline {
     }
     parameters {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
-        string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
+        string defaultValue: 'master', description: 'Branch For Checkout', name: 'BRANCH', trim: true
         string defaultValue: 'tf-virginia-dev-gb-batch-1589707255', description: 'Name of BATCH AMI to deploy', name: 'BATCH_AMI_NAME', trim: true
         string defaultValue: 'mail_galaxy_store_*', description: 'Name of MailTrain AMI to deploy', name: 'MAIL_TRAIN_AMI_NAME', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'

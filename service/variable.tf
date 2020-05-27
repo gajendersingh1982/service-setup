@@ -47,7 +47,7 @@ variable "instance_type_openapi"{
 }
 
 variable "was_ami_name"{
-  description = "DB Instance Type"
+  description = "WAS AMI Name"
 }
 
 variable "key_name"{

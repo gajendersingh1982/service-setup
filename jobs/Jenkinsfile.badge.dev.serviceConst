@@ -9,7 +9,7 @@ pipeline {
     }
     parameters {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
-        string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
+        string defaultValue: 'master', description: 'Branch For Checkout', name: 'BRANCH', trim: true
         string defaultValue: '*.galaxy.badge', description: 'Name of DOMAIN to use for HTTPS', name: 'DOMAIN_NAME', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
     }
@@ -37,7 +37,7 @@ pipeline {
         stage('Init') {
             steps {
                 sh '''
-                cd ./service
+                cd ./service-constant
                 echo $PWD
                 terraform init -backend-config="key=badge/dev/us-east-1/service-const/terraform.tfstate" -reconfigure
                 '''
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./service
+                cd ./service-constant
                 echo $PWD
                 terraform plan -var-file=./env/badgedev.tfvars -var="domain_name=${DOMAIN_NAME}"
                 '''
@@ -79,7 +79,7 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./service
+                cd ./service-constant
                 terraform apply -auto-approve -var-file=./env/badgedev.tfvars -var="domain_name=${DOMAIN_NAME}"
                 '''
             }
@@ -103,7 +103,7 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./network
+                cd ./service-constant
                 terraform destroy -auto-approve -var-file=./env/badgedev.tfvars -var="was_ami_name=${AMI_NAME}"
                 '''
             }

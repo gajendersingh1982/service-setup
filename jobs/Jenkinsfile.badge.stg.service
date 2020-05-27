@@ -9,7 +9,7 @@ pipeline {
     }
     parameters {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
-        string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
+        string defaultValue: 'master', description: 'Branch For Checkout', name: 'BRANCH', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
         string defaultValue: 'tf-virginia-stg-gb-was*', description: 'Name of AMI to deploy', name: 'AMI_NAME', trim: true
     }
@@ -103,7 +103,7 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./network
+                cd ./service
                 terraform destroy -auto-approve -var-file=./env/badgestg.tfvars -var="was_ami_name=${params.AMI_NAME}"
                 '''
             }
