@@ -16,8 +16,11 @@ module "db" {
   # Instance Class(t3 or r5)
   instance_class    = var.rds_instance_type
 
+  # DB subnet group
+  subnet_ids = data.terraform_remote_state.infra.outputs.private_subnets
+
   # Variables
-  snapshot_identifier = data.aws_db_snapshot.db_snapshot.id
+  # snapshot_identifier = data.aws_db_snapshot.db_snapshot.id
   multi_az            = var.multi_az
   publicly_accessible = var.publicly_accessible
 
@@ -47,9 +50,6 @@ module "db" {
   # monitoring_interval = "30"
   # monitoring_role_name = "MyRDSMonitoringRole"
   # create_monitoring_role = true
-
-  # DB subnet group
-  subnet_ids = data.terraform_remote_state.infra.outputs.private_subnets
 
   # DB parameter group
   family = "mysql5.7"
