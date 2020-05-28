@@ -40,7 +40,7 @@ module "gateway_ec2" {
   version = "2.13.0"
   
   # Essential [required for Infra Governance]
-  name                    = format("%s-%s-%s-%s-mail-train", var.prefix, var.region_name, var.stage, var.service)
+  name                    = format("%s-%s-%s-%s-gateway", var.prefix, var.region_name, var.stage, var.service)
   instance_count          = "1"
 
   ami                     = data.aws_ami.gateway_ami.id
