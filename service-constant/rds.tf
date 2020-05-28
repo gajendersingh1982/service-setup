@@ -17,7 +17,7 @@ module "db" {
   instance_class    = var.rds_instance_type
 
   # DB subnet group
-  subnet_ids = data.terraform_remote_state.infra.outputs.private_subnets
+  subnet_ids = [data.terraform_remote_state.infra.outputs.private_subnets[0]]
 
   # Variables
   # snapshot_identifier = data.aws_db_snapshot.db_snapshot.id
