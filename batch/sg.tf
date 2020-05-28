@@ -22,6 +22,22 @@ module "batch_sg" {
   tags                     = var.tags
 }
 
+module "gateway_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = format("%s-%s-%s-%s-gateway-sg", var.prefix, var.region_name, var.stage, var.service)
+  description = "Security group for Gateway Server"
+  vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
+
+  #Essential
+  egress_rules             = ["all-all"]
+
+  ingress_cidr_blocks      = var.restrictedIP 
+  ingress_rules            = ["ssh-tcp"]
+  
+  tags                     = var.tags
+}
+
 module "mail_train_sg" {
   source = "terraform-aws-modules/security-group/aws"
 

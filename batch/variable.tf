@@ -36,8 +36,12 @@ variable "instance_type_mail_train"{
   description = "Mail Train Instance Class"
 }
 
+variable "instance_type_gateway"{
+  description = "Mail Train Instance Class"
+}
+
 variable "key_name"{
-  description = "Key for login into Dev EC2"
+  description = "Key for login into EC2"
 }
 
 variable "batch_ami_name"{

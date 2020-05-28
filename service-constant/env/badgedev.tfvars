@@ -21,12 +21,12 @@ allocated_storage       = "50"
 max_allocated_storage   = "100"
 
 # SSL certificate
-# domain_name           ="*.samsungops.com"
-# domain_name           ="*.galaxy.store"
+domain_name             = "www.galaxy.store"
+domain_name_star        = "*.galaxy.store"
 
 # Firewall variables
 restrictedIP            = ["223.235.161.164/32", "103.81.106.248/30"]
-#                      SEA IP,             SRID IP
+#                                   SEA IP,             SRID IP
   
 publicIP                = "0.0.0.0/0"
 

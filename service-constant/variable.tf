@@ -42,6 +42,10 @@ variable "domain_name"{
   description = "SSL Domain to be used for ALB(443-ACM)"
 }
 
+variable "domain_name_star"{
+  description = "SSL Domain to be used for ALB(443-ACM)"
+}
+
 # Other variables
 variable "db_password"{
   description = "Enter Password to Set for Database"
