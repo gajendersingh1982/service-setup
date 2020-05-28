@@ -37,6 +37,7 @@ module "batch" {
   instance_type           = var.instance_type_batch
   key_name                = var.key_name
   monitoring              = false
+  disable_api_termination = true
 
   vpc_security_group_ids  = [module.batch_sg.this_security_group_id]
   subnet_ids               = data.terraform_remote_state.infra.outputs.public_subnets
@@ -52,10 +53,6 @@ module "batch" {
   ]
   
   tags                    = var.tags
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 # EIP for Batch server
