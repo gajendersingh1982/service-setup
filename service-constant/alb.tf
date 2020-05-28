@@ -4,7 +4,8 @@ data "aws_acm_certificate" "domain" {
 }
 
 module "lb_openapi" {
-  source  = "terraform-aws-modules/alb/aws"
+  # source  = "terraform-aws-modules/alb/aws"
+  source = "https://github.com/gajendersingh1982/terraform-aws-alb"
 
   name                = format("%s-%s-%s-%s-alb-api", var.prefix, var.region_name, var.stage, "gb")
   internal            = false
@@ -83,7 +84,8 @@ resource "aws_lb_listener_rule" "admin" {
 
  ####################### Admin LoadBalancer ########################
 module "lb_admin" {
-  source  = "terraform-aws-modules/alb/aws"
+  # source  = "terraform-aws-modules/alb/aws"
+  source = "https://github.com/gajendersingh1982/terraform-aws-alb"
 
   name               = format("%s-%s-%s-%s-alb-adm", var.prefix, var.region_name, var.stage, "gb")
   internal           = false

@@ -9,7 +9,7 @@ pipeline {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
         string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
         string defaultValue: 'arn:aws:rds:us-east-1:849611986161:snapshot:d-use1-gb-account-migration', description: 'Name of DB Snapshot', name: 'DB_SNAPSHOT', trim: true
-        string defaultValue: 'www.galaxy.badge', description: 'Name of DOMAIN to use for HTTPS', name: 'DOMAIN_NAME', trim: true
+        string defaultValue: 'www.galaxy.store', description: 'Name of DOMAIN to use for HTTPS', name: 'DOMAIN_NAME', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
     }
     environment {
