@@ -52,6 +52,10 @@ module "batch" {
   ]
   
   tags                    = var.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # EIP for Batch server
