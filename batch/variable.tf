@@ -40,6 +40,18 @@ variable "instance_type_gateway"{
   description = "Mail Train Instance Class"
 }
 
+variable "batch_count"{
+  description = "Batch Instance Class"
+}
+
+variable "mail_train_count"{
+  description = "Mail Train Instance Class"
+}
+
+variable "gateway_count"{
+  description = "Mail Train Instance Class"
+}
+
 variable "key_name"{
   description = "Key for login into EC2"
 }

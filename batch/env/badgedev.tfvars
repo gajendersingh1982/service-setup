@@ -11,8 +11,14 @@ tags = {
 
 # Instance Details
 instance_type_batch = "t3.medium"
+batch_count = "1"
+
 instance_type_mail_train = "t3.medium"
+mail_train_count = "0"
+
 instance_type_gateway = "t3.nano"
+gateway_count = "0"
+
 key_name = "galaxybadge_dev"
 batch_ami_name = "tf-virginia-dev-gb-batch-1589707255"
 mail_train_ami_name = "mail_galaxy_store_*"

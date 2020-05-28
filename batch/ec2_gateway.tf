@@ -41,7 +41,7 @@ module "gateway_ec2" {
   
   # Essential [required for Infra Governance]
   name                    = format("%s-%s-%s-%s-gateway", var.prefix, var.region_name, var.stage, var.service)
-  instance_count          = "0"
+  instance_count          = var.gateway_count
 
   ami                     = data.aws_ami.gateway_ami.id
   instance_type           = var.instance_type_gateway
@@ -63,13 +63,15 @@ module "gateway_ec2" {
 
 # EIP for Batch server
 resource "aws_eip" "eip_gateway" {
+  count = var.gateway_count
   vpc = true
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 resource "aws_eip_association" "eip_assoc_gateway" {
-  instance_id = module.gateway_ec2.id[0]
-  allocation_id = aws_eip.eip_gateway.id
+  count = var.gateway_count
+  instance_id = element(module.gateway_ec2.id[*], count.index)   # module.gateway_ec2.id[0]
+  allocation_id = aws_eip.eip_gateway[count.index].id
 }

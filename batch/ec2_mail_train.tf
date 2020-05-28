@@ -68,7 +68,7 @@ module "mail_train" {
   
   # Essential [required for Infra Governance]
   name                    = format("%s-%s-%s-%s-mail-train", var.prefix, var.region_name, var.stage, var.service)
-  instance_count          = "0"
+  instance_count          = var.mail_train_count
 
   ami                     = data.aws_ami.mail_train_ami.id
   instance_type           = var.instance_type_mail_train
@@ -90,13 +90,15 @@ module "mail_train" {
 
 # EIP for Batch server
 resource "aws_eip" "eip_mail_train" {
+  count = var.mail_train_count
   vpc = true
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 resource "aws_eip_association" "eip_assoc_mail_train" {
-  instance_id = module.mail_train.id[0]
-  allocation_id = aws_eip.eip_mail_train.id
+  count = var.mail_train_count
+  instance_id = element(module.mail_train.id[*], count.index)     # module.mail_train.id[0]
+  allocation_id = aws_eip.eip_mail_train[count.index].id
 }

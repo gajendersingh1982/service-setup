@@ -31,7 +31,7 @@ module "batch" {
   
   #essential [required for Infra Governance]
   name                    = format("%s-%s-%s-%s-batch", var.prefix, var.region_name, var.stage, var.service)
-  instance_count          = "1"
+  instance_count          = var.batch_count
 
   ami                     = data.aws_ami.batch_ami.id
   instance_type           = var.instance_type_batch
