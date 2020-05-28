@@ -72,7 +72,7 @@ pipeline {
                 ok "Yes, Pocceed."
                 submitter "gajender,singh"
                 parameters {
-                    string(name: 'PERSON', defaultValue: 'Gajender Singh', description: 'Continue to apply the chnages')
+                    string(name: 'PERSON', defaultValue: 'Branch For Checkout', description: 'Continue to apply the chnages')
                 }
             }
             steps {
@@ -96,7 +96,7 @@ pipeline {
                 ok "Yes, Pocceed."
                 submitter "gajender,singh"
                 parameters {
-                    string(name: 'PERSON', defaultValue: 'Gajender Singh', description: 'Continue to apply the chnages')
+                    string(name: 'PERSON', defaultValue: 'Branch For Checkout', description: 'Continue to apply the chnages')
                 }
             }
             steps {
