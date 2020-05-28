@@ -68,7 +68,7 @@ module "mail_train" {
   
   # Essential [required for Infra Governance]
   name                    = format("%s-%s-%s-%s-mail-train", var.prefix, var.region_name, var.stage, var.service)
-  instance_count          = "1"
+  instance_count          = "0"
 
   ami                     = data.aws_ami.mail_train_ami.id
   instance_type           = var.instance_type_mail_train
