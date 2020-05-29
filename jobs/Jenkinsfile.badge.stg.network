@@ -44,19 +44,29 @@ pipeline {
         }
         
         stage('Plan') {
-            when {
-                expression {
-                    params.DESTROY == false
-                }
-                beforeInput true
-            }
             steps {
-                sh '''
-                echo $PWD
-                cd ./network
-                echo $PWD
-                terraform plan -var-file=./env/badgestg.tfvars
-                '''
+                script {
+                    if (params.DESTROY == false) {
+                        stage ('Plan1'){
+                            sh '''
+                            echo $PWD
+                            cd ./service-constant
+                            echo $PWD
+                            terraform plan -var-file=./env/badgestg.tfvars
+                            '''
+                        }
+                    }
+                    else{
+                        stage ('Plan Destroy') {
+                            sh '''
+                            echo $PWD
+                            cd ./service-constant
+                            echo $PWD
+                            terraform plan -destroy -var-file=./env/badgestg.tfvars
+                            '''
+                        }
+                    }                    
+                }
             }
         }
 

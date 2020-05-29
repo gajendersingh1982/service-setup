@@ -5,12 +5,12 @@ pipeline {
         options { 
         timestamps()
         disableConcurrentBuilds()
-        buildDiscarder logRotator(artifactNumToKeepStr: '', numToKeepStr: '10')
+        buildDiscarder logRotator(artifactNumToKeepStr: '', numToKeepStr: '2')
     }
     parameters {
         string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
-        string defaultValue: 'master', description: 'Branch For Checkout', name: 'BRANCH', trim: true
-        string defaultValue: 'tf-virginia-dev-bixby-was*', description: 'Name of AMI to deploy', name: 'AMI_NAME', trim: true
+        string defaultValue: 'master', description: 'Brach For Checkout', name: 'BRANCH', trim: true
+        string defaultValue: 'arn:aws:rds:us-east-1:849611986161:snapshot:d-use1-gb-account-migration', description: 'Name of DB Snapshot', name: 'DB_SNAPSHOT', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
     }
     environment {
@@ -19,6 +19,7 @@ pipeline {
         AWS_DEFAULT_REGION="us-east-1"
         AWS_ACCESS_KEY_ID="${AWS_CREDS_USR}"
         AWS_SECRET_ACCESS_KEY="${AWS_CREDS_PSW}"
+		DB_PASSWORD = credentials('DEV_DB_PASS')
     }
     stages {
         stage('Cleanup') {
@@ -37,9 +38,9 @@ pipeline {
         stage('Init') {
             steps {
                 sh '''
-                cd ./service
+                cd ./service-constant
                 echo $PWD
-                terraform init -backend-config="key=bixby/dev/us-east-1/service/terraform.tfstate" -reconfigure
+                terraform init -backend-config="key=bixby/stg/us-east-1/service-const/terraform.tfstate" -reconfigure
                 '''
             }
         }
@@ -53,7 +54,7 @@ pipeline {
                             echo $PWD
                             cd ./service-constant
                             echo $PWD
-                            terraform plan -var-file=./env/bixbydev.tfvars -var="was_ami_name=${AMI_NAME}"
+                            terraform plan -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
                             '''
                         }
                     }
@@ -63,13 +64,13 @@ pipeline {
                             echo $PWD
                             cd ./service-constant
                             echo $PWD
-                            terraform plan -destroy -var-file=./env/bixbydev.tfvars -var="was_ami_name=${AMI_NAME}"
+                            terraform plan -destroy -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
                             '''
                         }
                     }                    
                 }
             }
-        } 
+        }
         
         stage('Apply') {
             when {
@@ -89,11 +90,12 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./service
-                terraform apply -auto-approve -var-file=./env/bixbydev.tfvars  -var="was_ami_name=${AMI_NAME}"
+                cd ./service-constant
+                terraform apply -auto-approve -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
                 '''
             }
         }
+
         stage('Destroy') {
             when {
                 expression {
@@ -112,8 +114,8 @@ pipeline {
             steps {
                 sh '''
                 echo $PWD
-                cd ./service
-                terraform destroy -auto-approve -var-file=./env/bixbydev.tfvars  -var="was_ami_name=${AMI_NAME}"
+                cd ./service-constant
+                terraform destroy -auto-approve -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
                 '''
             }
         }

@@ -47,22 +47,26 @@ pipeline {
         
         stage('Plan') {
             steps {
-                    sh '''
-                    echo $PWD
-                    cd ./service-constant
-                    echo $PWD
-                    '''
-
                 script {
                     if (params.DESTROY == false) {
-                       sh '''
-                       terraform plan -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
-                       '''
+                        stage ('Plan1'){
+                            sh '''
+                            echo $PWD
+                            cd ./service-constant
+                            echo $PWD
+                            terraform plan -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
+                            '''
+                        }
                     }
                     else{
-                        sh '''
-                        terraform plan -destroy -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
-                        '''
+                        stage ('Plan Destroy') {
+                            sh '''
+                            echo $PWD
+                            cd ./service-constant
+                            echo $PWD
+                            terraform plan -destroy -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
+                            '''
+                        }
                     }                    
                 }
             }
@@ -87,7 +91,7 @@ pipeline {
                 sh '''
                 echo $PWD
                 cd ./service-constant
-                    
+                terraform apply -auto-approve -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/badgedev.tfvars
                 '''
             }
         }
