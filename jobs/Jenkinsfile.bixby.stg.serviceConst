@@ -49,24 +49,20 @@ pipeline {
             steps {
                 script {
                     if (params.DESTROY == false) {
-                        stage ('Plan1'){
-                            sh '''
-                            echo $PWD
-                            cd ./service-constant
-                            echo $PWD
-                            terraform plan -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
-                            '''
-                        }
+                        sh '''
+                        echo $PWD
+                        cd ./service-constant
+                        echo $PWD
+                        terraform plan -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
+                        '''
                     }
-                    else{
-                        stage ('Plan Destroy') {
-                            sh '''
-                            echo $PWD
-                            cd ./service-constant
-                            echo $PWD
-                            terraform plan -destroy -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
-                            '''
-                        }
+                    else {
+                        sh '''
+                        echo $PWD
+                        cd ./service-constant
+                        echo $PWD
+                        terraform plan -destroy -var="db_password=${DB_PASSWORD}" -var="db_snapshot=${DB_SNAPSHOT}" -var-file=./env/bixbystg.tfvars
+                        '''
                     }                    
                 }
             }

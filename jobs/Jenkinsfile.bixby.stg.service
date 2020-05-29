@@ -48,24 +48,20 @@ pipeline {
             steps {
                 script {
                     if (params.DESTROY == false) {
-                        stage ('Plan1'){
-                            sh '''
-                            echo $PWD
-                            cd ./service-constant
-                            echo $PWD
-                            terraform plan -var-file=./env/bixbystg.tfvars -var="was_ami_name=${AMI_NAME}"
-                            '''
-                        }
+                        sh '''
+                        echo $PWD
+                        cd ./service-constant
+                        echo $PWD
+                        terraform plan -var-file=./env/bixbystg.tfvars -var="was_ami_name=${AMI_NAME}"
+                        '''
                     }
-                    else{
-                        stage ('Plan Destroy') {
-                            sh '''
-                            echo $PWD
-                            cd ./service-constant
-                            echo $PWD
-                            terraform plan -destroy -var-file=./env/bixbystg.tfvars -var="was_ami_name=${AMI_NAME}"
-                            '''
-                        }
+                    else {
+                        sh '''
+                        echo $PWD
+                        cd ./service-constant
+                        echo $PWD
+                        terraform plan -destroy -var-file=./env/bixbystg.tfvars -var="was_ami_name=${AMI_NAME}"
+                        '''
                     }                    
                 }
             }
