@@ -1,24 +1,24 @@
-prefix = "tf"
-region_name = "virginia"
-service = "gb"
-stage = "stg"
-vpc_region = "us-east-1" 
+prefix                  = "tf"
+region_name             = "virginia"
+service                 = "gb"
+stage                   = "stg"
+vpc_region              = "us-east-1" 
 
 tags = {
-    "Service" = "gb"
-    "Stage"     = "stg"
+    "Service"           = "gb"
+    "Stage"             = "stg"
 }
 
 # Instance Details
-rds_instance_type = "db.t3.small"
-db_snapshot = "abc"
-db_name              = "demodb"
-db_username          = "user"
+rds_instance_type       = "db.t3.small"
+db_snapshot             = "arn:aws:rds:us-east-1:849611986161:snapshot:d-use1-gb-account-migration"
+db_name                 = "demodb"
+db_username             = "user"
 
-multi_az = "false"
-publicly_accessible = "false"
-allocated_storage = "50"
-max_allocated_storage = "100"
+multi_az                = "false"
+publicly_accessible     = "false"
+allocated_storage       = "50"
+max_allocated_storage   = "100"
 
 # SSL certificate
 domain_name             = "www.galaxy.store"
