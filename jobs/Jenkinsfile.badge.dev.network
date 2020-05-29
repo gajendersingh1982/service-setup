@@ -49,7 +49,7 @@ pipeline {
                     if (params.DESTROY == false) {
                         sh '''
                         echo $PWD
-                        cd ./service-constant
+                        cd ./network
                         echo $PWD
                         terraform plan -var-file=./env/badgedev.tfvars
                         '''
@@ -57,7 +57,7 @@ pipeline {
                     else {
                         sh '''
                         echo $PWD
-                        cd ./service-constant
+                        cd ./network
                         echo $PWD
                         terraform plan -destroy -var-file=./env/badgedev.tfvars
                         '''
