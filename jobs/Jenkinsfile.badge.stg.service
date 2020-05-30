@@ -8,13 +8,13 @@ pipeline {
         buildDiscarder logRotator(artifactNumToKeepStr: '', numToKeepStr: '10')
     }
     parameters {
-        string defaultValue: 'Service', description: 'Repository Name', name: 'REPO', trim: true
+        string defaultValue: 'service.git', description: 'Repository Name', name: 'REPO', trim: true
         string defaultValue: 'master', description: 'Branch For Checkout', name: 'BRANCH', trim: true
         booleanParam defaultValue: false, description: 'Select if you want to delete infra', name: 'DESTROY'
         string defaultValue: 'tf-virginia-stg-gb-was*', description: 'Name of AMI to deploy', name: 'AMI_NAME', trim: true
     }
     environment {
-        GIT_URL = "https://github.com/gajendersingh1982"
+        GIT_URL_SSH = "git@github.com:gajendersingh1982"
         AWS_CREDS = credentials('AWS_badgedev')
         AWS_DEFAULT_REGION="us-east-1"
         AWS_ACCESS_KEY_ID="${AWS_CREDS_USR}"
@@ -29,7 +29,7 @@ pipeline {
         
         stage('Checkout') {
             steps {
-                git url: env.GIT_URL + "/" + params.REPO + "/", branch: params.BRANCH, credentialsId: env.GIT_CREDENTIALS_ID
+               git url: env.GIT_URL_SSH + "/" + params.REPO, branch: params.BRANCH, credentialsId: 'gaj_ssh'
                 sh 'echo $PWD'
             }
         } 
