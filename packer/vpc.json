@@ -1,0 +1,77 @@
+{
+    "variables": {
+        "aws_region": "us-east-1",
+        "ami_name": "rhel7_golden_",
+        "user_name": "singhgaj",
+        "pod": "golden"
+    },
+    "builders": [
+        {
+            "vpc_filter": {
+                "filters": {
+                    "tag:Name": "ia55-prod",
+                    "isDefault": "false"
+                }
+            },
+            "subnet_filter": {
+                "filters": {
+                    "tag:Name": "arc-pri"
+                },
+                "most_free": true,
+                "random": false
+            },
+            "associate_public_ip_address": true,
+            "temporary_security_group_source_cidrs": [
+                "0.0.0.0/0"
+            ],
+            "name": "AWS AMI Builder - Web Server",
+            "type": "amazon-ebs",
+            "region": "{{user `aws_region`}}",
+            "source_ami_filter": {
+                "filters": {
+                    "virtualization-type": "hvm",
+                    "name": "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*",
+                    "root-device-type": "ebs",
+                    "architecture": "x86_64"
+                },
+                "owners": [
+                    "099720109477"
+                ],
+                "most_recent": true
+            },
+            "instance_type": "t2.micro",
+            "ssh_username": "ubuntu",
+            "ami_name": "{{user `ami_name` | clean_resource_name}}-{{timestamp}}",
+            "tags": {
+                "Name": "{{user `ami_name`}}",
+                "Owner": "{{user `user_name`}}",
+                "pod": "{{user `pod`}}"
+            },
+            "run_tags": {
+                "Name": "{{user `ami_name`}}"
+            },
+            "run_volume_tags": {
+                "Name": "{{user `ami_name`}}"
+            },
+            "snapshot_tags": {
+                "Name": "{{user `ami_name`}}",
+                "Owner": "{{user `user_name`}}",
+                "pod": "{{user `pod`}}"
+            },
+            "ami_description": "Ubuntu Image with tomcat"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "./packer/was.sh",
+            "pause_before": "10s"
+        },
+        {
+            "type": "file",
+            "source": "./packer/ROOT.war",
+            "destination": "/opt/tomcat/webapps/ROOT.war",
+            "pause_before": "10s"
+        }
+    ]
+}
