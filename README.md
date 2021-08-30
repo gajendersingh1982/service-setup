@@ -12,7 +12,7 @@ As a second step, we will excute "network" folder, which creates our network lik
 ## Third-Step:
 - Move into packer folder to build our golden AMI's.(packer build can be ran in local machine)
   -- packer build batch.json
--Transfer "was.json" file to your application code folder(your app repo) so that you can execute in later stage(in Fifth step as "- packer build was.json" )
+- Transfer "was.json" file to your application code folder(your app repo) so that you can execute in later stage(in Fifth step as "- packer build was.json" )
 
 ## Fourth-Step:
 As a fourth step, we will execute "batch" folder, which creates our jenkins-batch server
