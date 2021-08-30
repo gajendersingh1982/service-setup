@@ -12,7 +12,7 @@ tags = {
 # Instance Details
 instance_type_admin = "t3.micro"
 instance_type_openapi = "t3.micro"
-key_name = "galaxybadge_dev"
+key_name = "service_dev"
 # was_ami_name = "tf-virginia-dev-gb-was*"
 
 # Firewall variables

@@ -19,7 +19,7 @@ mail_train_count = "0"
 instance_type_gateway = "t3.nano"
 gateway_count = "0"
 
-key_name = "galaxybadge_dev"
+key_name = "service_dev"
 batch_ami_name = "tf-virginia-dev-gb-batch-1589707255"
 mail_train_ami_name = "mail_galaxy_store_*"
 

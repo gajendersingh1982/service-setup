@@ -1,71 +1,63 @@
 {
-  "variables": {
-    "aws_region": "us-east-1",
-    "ami_name": "tf-virginia-dev-gb-was",
-    "user_name": "gajender.s",
-    "service": "gb"
-  },
-  "builders": [
-    {
-      "temporary_security_group_source_cidrs": [
-        "0.0.0.0/0"
-      ],
-      "name": "AWS AMI Builder - Web Server",
-      "type": "amazon-ebs",
-      "region": "{{user `aws_region`}}",
-      "source_ami_filter": {
-        "filters": {
-          "virtualization-type": "hvm",
-          "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*",
-          "root-device-type": "ebs",
-          "architecture": "x86_64"
-        },
-        "owners": [
-          "137112412989",
-          "591542846629",
-          "801119661308",
-          "102837901569",
-          "013907871322",
-          "206029621532",
-          "286198878708",
-          "443319210888",
-          "099720109477"
-        ],
-        "most_recent": true
-      },
-      "instance_type": "t2.micro",
-      "ssh_username": "ubuntu",
-      "ami_name": "{{user `ami_name` | clean_resource_name}}-{{timestamp}}",
-      "tags": {
-        "Name": "{{user `ami_name`}}",
-        "Owner": "{{user `user_name`}}",
-        "Service": "{{user `service`}}"
-      },
-      "run_tags": {
-        "Name": "{{user `ami_name`}}"
-      },
-      "run_volume_tags": {
-        "Name": "{{user `ami_name`}}"
-      },
-      "snapshot_tags": {
-        "Name": "{{user `ami_name`}}",
-        "Owner": "{{user `user_name`}}",
-        "Service": "{{user `service`}}"
-      },
-      "ami_description": "Ubuntu Image with tomcat"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "script": "./packer/was.sh",
-      "pause_before": "10s"
+    "variables": {
+        "aws_region": "us-east-1",
+        "ami_name": "rhel7_golden_",
+        "user_name": "singhgaj",
+        "pod": "golden"
     },
-    {
-      "type": "file",
-      "source": "./packer/ROOT.war",
-      "destination": "/opt/tomcat/webapps/ROOT.war",
-      "pause_before": "10s"
-    }
-  ]
+    "builders": [
+        {
+            "temporary_security_group_source_cidrs": [
+                "0.0.0.0/0"
+            ],
+            "name": "AWS AMI Builder - Web Server",
+            "type": "amazon-ebs",
+            "region": "{{user `aws_region`}}",
+            "source_ami_filter": {
+                "filters": {
+                    "virtualization-type": "hvm",
+                    "name": "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*",
+                    "root-device-type": "ebs",
+                    "architecture": "x86_64"
+                },
+                "owners": [
+                    "099720109477"
+                ],
+                "most_recent": true
+            },
+            "instance_type": "t2.micro",
+            "ssh_username": "ubuntu",
+            "ami_name": "{{user `ami_name` | clean_resource_name}}-{{timestamp}}",
+            "tags": {
+                "Name": "{{user `ami_name`}}",
+                "Owner": "{{user `user_name`}}",
+                "pod": "{{user `pod`}}"
+            },
+            "run_tags": {
+                "Name": "{{user `ami_name`}}"
+            },
+            "run_volume_tags": {
+                "Name": "{{user `ami_name`}}"
+            },
+            "snapshot_tags": {
+                "Name": "{{user `ami_name`}}",
+                "Owner": "{{user `user_name`}}",
+                "pod": "{{user `pod`}}"
+            },
+            "ami_description": "Ubuntu Image with tomcat"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "./packer/was.sh",
+            "pause_before": "10s"
+        },
+        {
+            "type": "file",
+            "source": "./packer/ROOT.war",
+            "destination": "/opt/tomcat/webapps/ROOT.war",
+            "pause_before": "10s"
+        }
+    ]
 }

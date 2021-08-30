@@ -4,7 +4,7 @@ variable "region" {
 }
 
 variable "bucket_name" {
-  default = "tf-galaxybadge-tfstate"
+  default = "tf-service-tfstate"
 }
 
 variable "table_name" {
