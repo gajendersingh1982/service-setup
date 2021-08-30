@@ -12,10 +12,10 @@ sudo groupadd tomcat
 sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
 
 cd /tmp
-sudo wget https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.54/bin/apache-tomcat-8.5.54.tar.gz
+sudo wget https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.70/bin/apache-tomcat-8.5.70.tar.gz
 #curl -O http://apache.mirrors.ionfish.org/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz
 
-sudo mkdir /opt/tomcat
+sudo mkdir /opt/tomcat -p
 sudo tar xzvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
 
 cd /opt/tomcat
